@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full" xmlns:x-transition="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Page Template - Ewan Prangell</title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Project Page Template - Ewan Prangell">
+    <meta name="description" content="A collection of my development projects with their wiki pages. Additionally it shows my journey through learning.">
+    <meta name="author" content="Ewan Prangell">
+    <meta name="keywords" content="web development, programming, developer portfolio">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ewanprangell.github.io/projects/templates/template7">
+    <meta property="og:site_name" content="Ewan Prangell">
+    <meta property="og:title" content="Project Page Template - Ewan Prangell">
+    <meta property="og:description" content="A collection of my development projects with their wiki pages. Additionally it shows my journey through learning.">
+    <meta property="og:image" content="https://ewanprangell.github.io/assets/site-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://ewanprangell.github.io/projects/templates/template7">
+    <meta property="twitter:title" content="Project Page Template - Ewan Prangell">
+    <meta property="twitter:description" content="A collection of my development projects with their wiki pages. Additionally it shows my journey through learning.">
+    <meta property="twitter:image" content="https://ewanprangell.github.io/assets/site-image.png">
+    <meta property="twitter:creator" content="@PrangellDev">
+
+    <!-- Theme Color for browsers -->
+    <meta name="theme-color" content="#EC4899">
+
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/animations.css" />
+    <link rel="stylesheet" href="/css/index.css" />
+    <link rel="stylesheet" href="/css/project-page.css" />
+    <script nonce="SUIiDKvdAKfAQ83JF6r8WpO/NmruLpbv8ihFYt&#x2B;TqvM=" defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <link rel="icon" href="/assets/prangell-icon.png"/>
+</head>
+<body class="min-h-full flex flex-col bg-gradient-to-br from-primary-50 to-secondary-50" x-data="projectPage">
+
+<!-- HEADER -->
+<header class="bg-white shadow-sm relative">
+    <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <a href="/index.html" class="text-2xl font-display font-bold hover:opacity-80 transition-all px-2 py-1">Ewan Prangell</a>
+
+        <a b-fjjvsfsfew href="/projects.html"
+           class="nav-link group relative flex items-center gap-1 px-2 py-1 rounded-lg transition-all duration-300"
+           :class="{ 'nav-link-active': activeSection.includes('projects.html') }"
+           aria-label="View all projects">
+            <span b-fjjvsfsfew>← Back to Projects</span>
+            <span b-fjjvsfsfew class="absolute inset-x-0 -bottom-1 h-0.5 bg-primary-500 transform origin-left transition-transform scale-x-0 group-hover:scale-x-100" aria-hidden="true"></span>
+        </a>
+    </nav>
+</header>
+
+<main class="container mx-auto px-4 py-12 max-w-5xl">
+    <div class="relative bg-white ring-1 ring-gray-900/5 rounded-2xl p-8 shadow-lg">
+
+        <!-- Decorative blob -->
+        <div class="absolute inset-0 flex items-center justify-center opacity-10 -z-10">
+            <div class="rotating-background blur-xl"></div>
+        </div>
+
+        <!-- Title + Summary -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-gray-900 mb-3" x-text="project.title"></h1>
+            <div class="small-gap-section"></div>
+            <div class="flex flex-wrap gap-2 justify-center mb-4">
+                <template x-for="tag in project.tags" :key="tag">
+                    <span class="tag" x-text="tag"></span>
+                </template>
+            </div>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto" x-text="project.summary"></p>
+        </div>
+
+        <div class="gap-section"></div>
+
+        <!-- Media Carousel -->
+        <div class="relative w-full h-full rounded-xl overflow-hidden shadow-md mb-10">
+            <template x-for="(item, index) in project.media" :key="index">
+                <div>
+                    <img x-show="item.type === 'image' && currentSlide === index" :src="item.src" class="w-full h-full object-cover inset-0 transition-opacity duration-300" />
+                    <video
+                        x-show="item.type === 'video' && currentSlide === index"
+                        :src="item.src"
+                        controls
+                        class="w-full h-full object-cover inset-0"
+                        x-ref="'carouselVideo' + index"
+                        x-effect="if (item.type === 'video' && currentSlide === index) { $refs['carouselVideo' + index]?.pause(); $refs['carouselVideo' + index]?.currentTime = 0; }"
+                    ></video>
+                </div>
+            </template>
+
+            <button @click="prev()" class="carousel-btn prev">&lt</button>
+            <button @click="next()" class="carousel-btn next">&gt</button>
+        </div>
+
+        <div class="gap-section"></div>
+
+        <!-- Links -->
+        <div class="mb-10">
+            <h2 class="text-2xl font-semibold mb-4">Links</h2>
+            <div class="flex flex-wrap gap-3">
+                <template x-for="link in project.links">
+                    <a :href="link.url" target="_blank" class="px-4 py-2 rounded-xl bg-primary-500 text-white hover:bg-primary-600 transition flex items-center gap-2">
+                        <template x-if="link.svg">
+                            <span x-html="link.svg" class="inline-block align-middle"></span>
+                        </template>
+                        <span x-text="link.label"></span>
+                    </a>
+                </template>
+            </div>
+        </div>
+        
+        <div class="gap-section"></div>
+
+        <!-- Full Description -->
+        <div class="mb-10">
+            <h2 class="text-2xl font-semibold mb-4">Description</h2>
+            <p class="text-gray-700 leading-relaxed" x-text="project.description"></p>
+        </div>
+
+        <div class="gap-section"></div>
+
+        <!-- Code Example Block -->
+        <template x-for="(block, idx) in project.codeBlocks" :key="idx">
+            <div class="mb-10">
+                <div class="flex items-center gap-3 mb-2">
+                <span class="text-primary-500 font-bold">Code Block #<span x-text="idx + 1"></span></span>
+                <span class="text-gray-600" x-text="block.summary"></span>
+                </div>
+                <div class="mb-3">
+                <span class="block text-gray-700" x-text="block.description"></span>
+                </div>
+                <div class="gap-section"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+                <!-- Multi-file code block -->
+                <template x-if="block.codeFiles">
+                    <div class="code-block-overview" x-data="multiFileCodeBlock(block.codeFiles)">
+                        <div class="code-block-overlay" @click="dropdownOpen = !dropdownOpen" style="cursor:pointer;position:relative;">
+                            <svg class="animate-bounce-code" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" style="vertical-align:middle;"><path stroke="#fff" stroke-width="2" d="M6 9l6 6 6-6"/></svg>
+                            <span x-text="selected"></span>
+                            <div x-show="dropdownOpen" @click.outside="dropdownOpen = false" style="position:absolute;top:2.2rem;left:0;z-index:10;background:#18181b;border-radius:0.5rem;box-shadow:0 2px 8px rgba(0,0,0,0.15);min-width:180px;">
+                                <template x-for="fileObj in block.codeFiles" :key="fileObj.file">
+                                    <div @click.stop="selected = fileObj.file; dropdownOpen = false" style="padding:0.5rem 1rem;color:#fff;cursor:pointer;white-space:nowrap;" :class="{'bg-gray-700': selected === fileObj.file}">
+                                        <span x-text="fileObj.label"></span>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <pre class="code-block-content" style="margin-top:0;"><code x-text="code"></code></pre>
+                    </div>
+                </template>
+                <!-- Single file code block -->
+                <template x-if="!block.codeFiles && block.file">
+                    <div class="code-block-overview" x-data="codeBlockLoader(block.file)">
+                    <div class="code-block-overlay">
+                        <svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' viewBox='0 0 24 24'><rect width='24' height='24' rx='4' fill='#334155'/><path stroke='#fff' stroke-width='2' d='M7 7h10v10H7z'/></svg>
+                        <span x-text="block.file"></span>
+                    </div>
+                    <pre class="code-block-content"><code x-text="code"></code></pre>
+                    </div>
+                </template>
+                <!-- Inline code block -->
+                <template x-if="!block.codeFiles && !block.file">
+                    <div class="code-block-overview">
+                    <div class="code-block-overlay">
+                        <svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' viewBox='0 0 24 24'><rect width='24' height='24' rx='4' fill='#334155'/><path stroke='#fff' stroke-width='2' d='M7 7h10v10H7z'/></svg>
+                        <span>Inline Code</span>
+                    </div>
+                    <pre class="code-block-content"><code x-text="block.code"></code></pre>
+                    </div>
+                </template>
+                <!-- Optional image/media -->
+                <template x-if="block.media">
+                    <div class="h-full">
+                    <img :src="block.media" class="rounded-xl shadow w-full object-fit:cover; object-cover" />
+                    </div>
+                </template>
+                </div>
+            </div>
+        </template>
+
+        <!-- Additional Media Grid -->
+        <div>
+            <h2 class="text-2xl font-semibold mb-4">Additional Media</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <template x-for="(item, index) in project.addmedia">
+                    <div>
+                        <template x-if="item.type === 'image'">
+                            <img :src="item.src" class="rounded-xl object-cover w-full h-64 shadow" />
+                        </template>
+                        <template x-if="item.type === 'video'">
+                            <video :src="item.src" controls class="rounded-xl w-full h-64 object-cover shadow"></video>
+                        </template>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer b-fjjvsfsfew class="bg-white border-t mt-auto">
+    <div b-fjjvsfsfew class="container mx-auto px-4 py-6">
+        <div b-fjjvsfsfew class="text-center space-y-2">
+            <p b-fjjvsfsfew class="text-gray-600">&copy; 2025 - Ewan Prangell</p>
+            <p b-fjjvsfsfew class="text-sm text-gray-500 flex items-center justify-center gap-2">
+                <span b-fjjvsfsfew>Made with Magic</span>
+            </p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('projectPage', () => ({
+            currentSlide: 0,
+            project: {
+                title: "Project Title",
+                summary: "Short 2–3 line summary describing the project.",
+                description: "Full detailed project description goes here...",
+                tags: ["Template"],
+                media: [
+                    { type: "image", src: "/assets/project_template/2025-05-03_15.47.45.png" },
+                    { type: "image", src: "/assets/project_template/2025-06-19_11.46.57.png" },
+                    { type: "video", src: "/assets/project_template/All_Night_Fury_animations_and_fetch_and_baby_Night_Fury.mp4" }
+                ],
+                links: [
+                    {
+                        svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/></svg>`,
+                        label: "GitHub",
+                        url: "#"
+                    },
+                    { label: "Live Demo", url: "#" }
+                ],
+                codeBlocks: [
+                        {
+                            code: `function hello() {\n  console.log("Hello World");\n}`,
+                            summary: "Basic hello world function.",
+                            description: "A simple function that logs 'Hello World' to the console.",
+                            media: "/assets/project_template/2025-06-19_11.46.57.png"
+                        },
+                        {
+                            file: "/assets/code/template/AdditionArrowFunction.js",
+                            summary: "Simple addition arrow function.",
+                            description: "A short function that adds two numbers. Written in JavaScript. This has been loaded from an external file.",
+                            media: null
+                        },
+                        {
+                            codeFiles: [
+                                { label: "Main.java", file: "/assets/code/template/Main.java" },
+                                { label: "Utils.cs", file: "/assets/code/template/Utils.cs" }
+                            ],
+                            summary: "A simple file setup across multiple programming languages utilising a custom dropdown feature to swap between files.",
+                            description: "These seperate code blocks demonstrate how to structure a basic project in both Java and C#. The Java file contains the main entry point, while the C# file includes the start for utility functions. Both files are selected via a dropdown menu for easy navigation. Furthermore, this code block setup showcases the ability to handle multiple files within a single code block component, enhancing the user experience when viewing code samples.",
+                            media: "/assets/project_template/2025-05-03_15.47.45.png"
+                        }
+                ],
+                addmedia: [
+                    { type: "image", src: "/assets/project_template/2025-05-03_15.47.45.png" },
+                    { type: "image", src: "/assets/project_template/2025-06-19_11.46.57.png" },
+                    { type: "video", src: "/assets/project_template/All_Night_Fury_animations_and_fetch_and_baby_Night_Fury.mp4" }
+                ],
+            },
+            next() {
+                this.currentSlide = (this.currentSlide + 1) % this.project.media.length;
+            },
+            prev() {
+                this.currentSlide = (this.currentSlide - 1 + this.project.media.length) % this.project.media.length;
+            }
+        })),
+        Alpine.data('codeBlockLoader', (file) => ({
+        code: '',
+        async init() {
+            if (file) {
+                try {
+                    const res = await fetch(file);
+                    this.code = await res.text();
+                } catch (e) {
+                    this.code = '// Error loading file';
+                }
+            }
+        }
+    })),
+    Alpine.data('multiFileCodeBlock', (files) => ({
+        selected: files[0]?.file,
+        code: '',
+        dropdownOpen: false,
+        async fetchCode() {
+            if (this.selected) {
+                try {
+                    const res = await fetch(this.selected);
+                    this.code = await res.text();
+                } catch (e) {
+                    this.code = '// Error loading file';
+                }
+            }
+        },
+        init() {
+            this.fetchCode();
+            this.$watch('selected', () => {
+                this.fetchCode();
+            });
+        }
+    }));
+    });
+</script>
+</body>
+</html>

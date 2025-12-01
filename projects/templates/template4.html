@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Template Redesigned</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(90deg, #f5e9f2, #eef6f6);
+            color: #333;
+        }
+
+        header {
+            width: 100%;
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        header a {
+            text-decoration: none;
+            color: #444;
+            margin-left: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .project-card {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        /* Carousel */
+        .carousel {
+            position: relative;
+            width: 100%;
+            height: 260px;
+            background: #d5d4d9;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .carousel img, .carousel video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+        .carousel img.active, .carousel video.active {
+            display: block;
+        }
+        .carousel button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: #ffffffaa;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .prev { left: 10px; }
+        .next { right: 10px; }
+
+        .project-info h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .summary {
+            margin-top: 10px;
+            background: #f5f4ff;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        /* Description blocks */
+        .description-section {
+            margin-top: 15px;
+        }
+
+        .dual-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 12px;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #fff;
+            padding: 12px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 13px;
+            overflow-x: auto;
+        }
+
+        .mini-carousel {
+            background: #d5d4d9;
+            border-radius: 10px;
+            height: 150px;
+            position: relative;
+        }
+
+        /* Additional media */
+        .media-section {
+            margin-top: 40px;
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+        .media-grid {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .media-grid img, .media-grid video {
+            width: 100%;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <strong>Ewan Prangell</strong>
+    <div>
+        <a href="#">Projects</a>
+        <a href="#">About</a>
+    </div>
+</header>
+
+<div class="container">
+    <div class="project-card">
+
+        <!-- Main carousel -->
+        <div class="carousel" id="carousel">
+            <img src="/assets/project_template/2025-05-03_15.47.45.png" class="active" />
+            <img src="/assets/project_template/2025-06-19_11.46.57.png" />
+            <video src="/assets/project_template/All_Night_Fury_animations_and_fetch_and_baby_Night_Fury.mp4"></video>
+            <button class="prev" onclick="prevSlide()">❮</button>
+            <button class="next" onclick="nextSlide()">❯</button>
+        </div>
+
+        <!-- Project information -->
+        <div class="project-info">
+            <h2>Project Title</h2>
+            <p class="summary">Short summary goes here. A quick explanation of the project goal in 2–3 lines.</p>
+
+            <div class="description-section">
+                <h3>Description</h3>
+                <p>This is a full in-depth project description. You can add paragraphs, lists, and formatted code blocks below.</p>
+
+                <!-- Dual block layout -->
+                <div class="dual-section">
+
+                    <div class="code-block">
+                        // Example code snippet
+                        function hello() {
+                        console.log("Hello World");
+                        }
+                    </div>
+
+                    <div class="mini-carousel">
+                        <button class="prev" style="left:5px;">❮</button>
+                        <button class="next" style="right:5px;">❯</button>
+                    </div>
+                </div>
+
+                <p style="margin-top: 10px; font-size: 14px;">
+                    This is an in-depth project description of the code snippet explaining its purpose and function.
+                </p>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Media section -->
+    <div class="media-section">
+        <h3>Additional Media</h3>
+        <div class="media-grid">
+            <img src="/assets/project_template/2025-05-03_15.47.45.png" />
+            <img src="/assets/project_template/2025-06-19_11.46.57.png" />
+        </div>
+    </div>
+</div>
+
+<footer>
+    © 2025 – Ewan Prangell<br>
+    Made with Magic
+</footer>
+
+<script>
+    let slides = [];
+    let currentIndex = 0;
+
+    window.onload = () => {
+        slides = document.querySelectorAll('#carousel img, #carousel video');
+    };
+
+    function showSlide(i) {
+        slides[currentIndex].classList.remove('active');
+        currentIndex = (i + slides.length) % slides.length;
+        slides[currentIndex].classList.add('active');
+    }
+    function nextSlide() { showSlide(currentIndex + 1); }
+    function prevSlide() { showSlide(currentIndex - 1); }
+</script>
+
+</body>
+</html>

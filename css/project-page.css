@@ -1,0 +1,129 @@
+    .nav-link {
+        color: rgb(75 85 99);
+        font-weight: 500;
+        outline: none;
+    }
+
+    .nav-link:hover {
+        color: rgb(85, 0, 255);
+    }
+
+    .nav-link:focus-visible {
+        outline: 2px solid rgb(78, 39, 219);
+        outline-offset: 2px;
+        border-radius: 0.5rem;
+    }
+
+    .nav-link-active {
+        color: rgb(84, 39, 219);
+        background-color: rgb(253 242 248);
+    }
+
+    @keyframes gradient-shift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .carousel-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255,255,255,0.7);
+        border: none;
+        padding: 8px 14px;
+        font-size: 18px;
+        cursor: pointer;
+        border-radius: 6px;
+    }
+
+    .prev {
+        left: 10px;
+        font-weight: bolder;
+    }
+    .next {
+        right: 10px;
+        font-weight: bolder;
+    }
+
+    /* Code block overview styles */
+    .code-block-overview {
+        position: relative;
+        background: #18181b;
+        border-radius: 1rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        overflow: hidden;
+        min-height: 256px;
+        max-height: 384px;
+        display: flex;
+        flex-direction: column;
+    }
+    .code-block-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(30,41,59,0.95);
+        color: #fff;
+        font-size: 0.95rem;
+        padding: 0.5rem 1rem;
+        z-index: 2;
+        border-bottom: 1px solid #334155;
+        font-family: 'Fira Mono', 'Consolas', monospace;
+        letter-spacing: 0.02em;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .code-block-content {
+        margin-top: 2.2rem;
+        padding: 1rem;
+        overflow: auto;
+        color: #e5e7eb;
+        font-size: 0.98rem;
+        font-family: 'Fira Mono', 'Consolas', monospace;
+        white-space: pre;
+        flex: 1;
+    }
+
+    .gap-section {
+        height: 2.5rem;
+        width: 100%;
+    }
+
+    .small-gap-section {
+        height: 0.5rem;
+        width: 100%;
+    }
+
+   /* WebKit browsers (Chrome, Edge, Safari) */
+   .code-block-content::-webkit-scrollbar{
+       width: 10px;
+       height: 10px;
+   }
+   .code-block-content::-webkit-scrollbar-track{
+       background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+       border-radius: 999px;
+   }
+   .code-block-content::-webkit-scrollbar-thumb{
+       background: var(--cb-thumb);
+       border-radius: 999px;
+       border: 2px solid rgba(0,0,0,0.18);
+       box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
+       transition: background .15s ease, transform .08s ease;
+   }
+   .code-block-content::-webkit-scrollbar-thumb:hover{
+       background: var(--cb-thumb-hover);
+       transform: translateY(-1px);
+   }
+
+   /* Firefox */
+   .code-block-content{
+       scrollbar-width: thin;
+       scrollbar-color: var(--cb-thumb) rgba(255,255,255,0.03);
+   }
+ 
+   /* Corner / fallback */
+   .code-block-content::-webkit-scrollbar-corner{
+       background: transparent;
+   }

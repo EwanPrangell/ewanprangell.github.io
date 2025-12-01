@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full" xmlns:x-transition="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projects - Ewan Prangell</title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Projects - Ewan Prangell">
+    <meta name="description" content="A collection of my development projects with their wiki pages. Additionally it shows my journey through learning.">
+    <meta name="author" content="Ewan Prangell">
+    <meta name="keywords" content="web development, programming, developer portfolio">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ewanprangell.github.io/projects/templates/template5">
+    <meta property="og:site_name" content="Ewan Prangell">
+    <meta property="og:title" content="Projects - Ewan Prangell">
+    <meta property="og:description" content="A collection of my development projects with their wiki pages. Additionally it shows my journey through learning.">
+    <meta property="og:image" content="https://ewanprangell.github.io/assets/site-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://ewanprangell.github.io/projects/templates/template5">
+    <meta property="twitter:title" content="Projects - Ewan Prangell">
+    <meta property="twitter:description" content="A collection of my development projects with their wiki pages. Additionally it shows my journey through learning.">
+    <meta property="twitter:image" content="https://ewanprangell.github.io/assets/site-image.png">
+    <meta property="twitter:creator" content="@PrangellDev">
+
+    <!-- Theme Color for browsers -->
+    <meta name="theme-color" content="#EC4899">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(90deg, #f5e9f2, #eef6f6);
+            color: #333;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .project-card {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* Carousel */
+        .carousel {
+            position: relative;
+            width: 55%;
+            height: 300px;
+            overflow: hidden;
+            border-radius: 10px;
+            background: #ddd;
+        }
+
+        .carousel img, .carousel video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .carousel img.active, .carousel video.active {
+            display: block;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.7);
+            border: none;
+            padding: 8px 14px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+        .prev { left: 10px; }
+        .next { right: 10px; }
+
+        .project-info {
+            width: 45%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        h2 { margin-top: 0; }
+
+        /* Additional Media Section */
+        .media-section {
+            margin-top: 40px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .media-grid img, .media-grid video {
+            width: 100%;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        /* Link Buttons */
+        .links {
+            margin-top: 20px;
+        }
+
+        .links a {
+            display: inline-block;
+            padding: 10px 16px;
+            margin-right: 10px;
+            background: #6b4bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .links a:hover {
+            background: #5634d8;
+        }
+        /* Code snippet styling */
+        .code-section {
+            margin-top: 20px;
+            background: #f3f2ff;
+            padding: 15px;
+            border-radius: 12px;
+            border-left: 4px solid #6b4bff;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #fff;
+            padding: 14px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        [x-cloak] { display: none !important; }
+    </style>
+
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/animations.css" />
+    <link rel="stylesheet" href="/css/index.css" />
+
+    <script nonce="SUIiDKvdAKfAQ83JF6r8WpO/NmruLpbv8ihFYt&#x2B;TqvM=" defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <link rel="icon" href="assets/prangell-icon.png"/>
+</head>
+<body class="min-h-full flex flex-col bg-gradient-to-br from-primary-50 to-secondary-50">
+
+<header b-fjjvsfsfew class="bg-white shadow-sm relative">
+    <nav b-fjjvsfsfew class="container mx-auto px-4 py-4" x-data="{ isOpen: false, activeSection: window.location.pathname }" role="navigation" aria-label="Main navigation">
+        <div b-fjjvsfsfew class="flex justify-between items-center">
+            <!-- Logo -->
+            <a b-fjjvsfsfew href="index.html"
+               class="text-2xl font-display font-bold bg-clip-text hover:opacity-80 transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-lg px-2 py-1"
+               aria-label="Home">
+                    <span b-fjjvsfsfew class="inline-flex items-center gap-2">
+                        Ewan Prangell
+                    </span>
+            </a>
+
+            <!-- Mobile menu button -->
+            <button b-fjjvsfsfew @click="isOpen = !isOpen"
+                    class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    :aria-expanded="isOpen"
+                    aria-controls="mobile-menu"
+                    aria-label="Toggle navigation menu">
+                <svg b-fjjvsfsfew class="h-6 w-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path b-fjjvsfsfew x-show="!isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    <path b-fjjvsfsfew x-show="isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+
+            <!-- Desktop menu -->
+            <div b-fjjvsfsfew class="hidden md:flex space-x-8">
+                <a b-fjjvsfsfew href="projects.html"
+                   class="nav-link group relative flex items-center gap-1 px-2 py-1 rounded-lg transition-all duration-300"
+                   :class="{ 'nav-link-active': activeSection.includes('projects.html') }"
+                   aria-label="View all projects">
+                    <span b-fjjvsfsfew>Projects</span>
+                    <span b-fjjvsfsfew class="absolute inset-x-0 -bottom-1 h-0.5 bg-primary-500 transform origin-left transition-transform scale-x-0 group-hover:scale-x-100" aria-hidden="true"></span>
+                </a>
+                <a b-fjjvsfsfew href="about.html"
+                   class="nav-link group relative flex items-center gap-1 px-2 py-1 rounded-lg transition-all duration-300"
+                   :class="{ 'nav-link-active': activeSection.includes('about.html') }"
+                   aria-label="About me">
+                    <span b-fjjvsfsfew>About</span>
+                    <span b-fjjvsfsfew class="absolute inset-x-0 -bottom-1 h-0.5 bg-primary-500 transform origin-left transition-transform scale-x-0 group-hover:scale-x-100" aria-hidden="true"></span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div b-fjjvsfsfew x-show="isOpen"
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 -translate-y-2"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 -translate-y-2"
+             class="md:hidden mt-4 space-y-2 p-2 bg-white rounded-lg shadow-lg"
+             id="mobile-menu">
+            <a b-fjjvsfsfew href="projects.html"
+               class="nav-link block p-2 rounded-lg transition-all duration-300 hover:bg-gray-50"
+               :class="{ 'text-primary-600 bg-primary-50': activeSection.includes('projects.html') }">
+                    <span b-fjjvsfsfew class="flex items-center gap-2">
+                        Projects
+                    </span>
+            </a>
+            <a b-fjjvsfsfew href="about.html"
+               class="nav-link block p-2 rounded-lg transition-all duration-300 hover:bg-gray-50"
+               :class="{ 'text-primary-600 bg-primary-50': activeSection.includes('about.html') }">
+                    <span b-fjjvsfsfew class="flex items-center gap-2">
+                        About
+                    </span>
+            </a>
+        </div>
+    </nav>
+</header>
+
+<div class="container">
+
+    <div class="project-card vertical">
+
+        <div class="carousel" id="carousel">
+            <img src="/assets/project_template/2025-05-03_15.47.45.png" class="active" />
+            <img src="/assets/project_template/2025-06-19_11.46.57.png" />
+            <video src="/assets/project_template/All_Night_Fury_animations_and_fetch_and_baby_Night_Fury.mp4" controls></video>
+
+            <button class="carousel-btn prev" onclick="prevSlide()">❮</button>
+            <button class="carousel-btn next" onclick="nextSlide()">❯</button>
+        </div>
+
+        <div class="project-info">
+            <h2>Project Title</h2>
+            <p class="summary">Short summary goes here. A 2–3 line introduction.</p>
+        </div>
+
+        <div class="links-section">
+            <h3>Links</h3>
+            <div class="links">
+                <a href="#">View Project</a>
+                <a href="#">GitHub</a>
+                <a href="#">Live Demo</a>
+            </div>
+        </div>
+
+        <div class="description-section">
+            <h3>Description</h3>
+            <p>
+                This is a full in-depth project description. This section now spans the full
+                width of the card, placed underneath the carousel.
+            </p>
+        </div>
+
+        <div class="code-section">
+            <h3>Code Examples</h3>
+            <div class="code-media-wrap" style="display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap;">
+
+                <!-- CODE BLOCK -->
+                <pre class="code-block" style="flex:1; min-width:280px;"><code>
+                    // Example Code Snippet
+                    function hello() {
+                      console.log("Hello World");
+                    }
+          </code></pre>
+
+                <!-- IMAGE OR VIDEO PREVIEW -->
+                <div class="code-preview" style="flex:1; min-width:280px;">
+                    <img src="/assets/project_template/2025-06-19_11.46.57.png" style="width:100%; border-radius:10px;" />
+                    <!-- Example: replace with video if needed -->
+                    <!-- <video src="/path/to/video.mp4" controls style="width:100%; border-radius:10px;"></video> -->
+                </div>
+            </div>
+
+            <!-- EXPLANATION BELOW -->
+            <div class="code-explanation" style="margin-top:15px;">
+                <p>
+                    This area provides a deeper explanation of what the code is doing, how it works,
+                    why specific decisions were made, or any additional technical insights.
+                </p>
+            </div>
+        </div>
+
+        <div class="media-section">
+            <h3>Additional Media</h3>
+            <div class="media-grid">
+                <img src="/assets/project_template/2025-05-03_15.47.45.png" class="active" />
+                <img src="/assets/project_template/2025-06-19_11.46.57.png" />
+                <video src="/assets/project_template/All_Night_Fury_animations_and_fetch_and_baby_Night_Fury.mp4" controls></video>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<footer b-fjjvsfsfew class="bg-white border-t mt-auto">
+    <div b-fjjvsfsfew class="container mx-auto px-4 py-6">
+        <div b-fjjvsfsfew class="text-center space-y-2">
+            <p b-fjjvsfsfew class="text-gray-600">&copy; 2025 - Ewan Prangell</p>
+            <p b-fjjvsfsfew class="text-sm text-gray-500 flex items-center justify-center gap-2">
+                <span b-fjjvsfsfew>Made with Magic</span>
+            </p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    let slides = [];
+    let currentIndex = 0;
+
+    window.onload = () => {
+        slides = document.querySelectorAll('#carousel img, #carousel video');
+    };
+
+    function showSlide(i) {
+        slides[currentIndex].classList.remove('active');
+        currentIndex = (i + slides.length) % slides.length;
+        slides[currentIndex].classList.add('active');
+    }
+
+    function nextSlide() {
+        showSlide(currentIndex + 1);
+    }
+
+    function prevSlide() {
+        showSlide(currentIndex - 1);
+    }
+</script>
+
+<style>
+    .nav-link {
+        color: rgb(75 85 99);
+        font-weight: 500;
+        outline: none;
+    }
+
+    .nav-link:hover {
+        color: rgb(85, 0, 255);
+    }
+
+    .nav-link:focus-visible {
+        outline: 2px solid rgb(78, 39, 219);
+        outline-offset: 2px;
+        border-radius: 0.5rem;
+    }
+
+    .nav-link-active {
+        color: rgb(84, 39, 219);
+        background-color: rgb(253 242 248);
+    }
+
+    @keyframes gradient-shift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+</style>
+</body>
+</html>

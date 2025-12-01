@@ -1,0 +1,5 @@
+{
+  "entity": "dragonsmod:dragon",
+  "name": "{\"translate\":\"dragonsmod.variant.dragon.dragon\"}",
+  "texture": "dragonsmod:textures/entity/dragon/dragon.png"
+}

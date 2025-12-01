@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full" xmlns:x-transition="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Infestation Education - Project Page - Ewan Prangell</title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Infestation Education - Project Page - Ewan Prangell">
+    <meta name="description" content="A collection of my development projects with their wiki pages. Additionally it shows my journey through learning.">
+    <meta name="author" content="Ewan Prangell">
+    <meta name="keywords" content="web development, programming, developer portfolio">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ewanprangell.github.io/projects/infestationeducation">
+    <meta property="og:site_name" content="Ewan Prangell">
+    <meta property="og:title" content="Infestation Education - Project Page - Ewan Prangell">
+    <meta property="og:description" content="A collection of my development projects with their wiki pages. Additionally it shows my journey through learning.">
+    <meta property="og:image" content="https://ewanprangell.github.io/assets/site-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://ewanprangell.github.io/projects/infestationeducation">
+    <meta property="twitter:title" content="Infestation Education - Project Page - Ewan Prangell">
+    <meta property="twitter:description" content="A collection of my development projects with their wiki pages. Additionally it shows my journey through learning.">
+    <meta property="twitter:image" content="https://ewanprangell.github.io/assets/site-image.png">
+    <meta property="twitter:creator" content="@PrangellDev">
+
+    <!-- Theme Color for browsers -->
+    <meta name="theme-color" content="#EC4899">
+
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/animations.css" />
+    <link rel="stylesheet" href="/css/index.css" />
+    <link rel="stylesheet" href="/css/project-page.css" />
+    <script nonce="SUIiDKvdAKfAQ83JF6r8WpO/NmruLpbv8ihFYt&#x2B;TqvM=" defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <link rel="icon" href="/assets/prangell-icon.png"/>
+</head>
+<body class="min-h-full flex flex-col bg-gradient-to-br from-primary-50 to-secondary-50" x-data="projectPage">
+
+<!-- HEADER -->
+<header class="bg-white shadow-sm relative">
+    <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <a href="/index.html" class="text-2xl font-display font-bold hover:opacity-80 transition-all px-2 py-1">Ewan Prangell</a>
+
+        <a b-fjjvsfsfew href="/projects.html"
+           class="nav-link group relative flex items-center gap-1 px-2 py-1 rounded-lg transition-all duration-300"
+           :class="{ 'nav-link-active': activeSection.includes('projects.html') }"
+           aria-label="View all projects">
+            <span b-fjjvsfsfew>← Back to Projects</span>
+            <span b-fjjvsfsfew class="absolute inset-x-0 -bottom-1 h-0.5 bg-primary-500 transform origin-left transition-transform scale-x-0 group-hover:scale-x-100" aria-hidden="true"></span>
+        </a>
+    </nav>
+</header>
+
+<main class="container mx-auto px-4 py-12 max-w-5xl">
+    <div class="relative bg-white ring-1 ring-gray-900/5 rounded-2xl p-8 shadow-lg">
+
+        <!-- Decorative blob -->
+        <div class="absolute inset-0 flex items-center justify-center opacity-10 -z-10">
+            <div class="rotating-background blur-xl"></div>
+        </div>
+
+        <!-- Title + Summary -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-gray-900 mb-3" x-text="project.title"></h1>
+            <div class="small-gap-section"></div>
+            <div class="flex flex-wrap gap-2 justify-center mb-4">
+                <template x-for="tag in project.tags" :key="tag">
+                    <span class="tag" x-text="tag"></span>
+                </template>
+            </div>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto" x-text="project.summary"></p>
+        </div>
+
+        <div class="gap-section"></div>
+
+        <!-- Media Carousel -->
+        <div class="relative w-full h-full rounded-xl overflow-hidden shadow-md mb-10">
+            <template x-for="(item, index) in project.media" :key="index">
+                <div>
+                    <img x-show="item.type === 'image' && currentSlide === index" :src="item.src" class="w-full h-full object-cover inset-0 transition-opacity duration-300" />
+                    <video
+                        x-show="item.type === 'video' && currentSlide === index"
+                        :src="item.src"
+                        controls
+                        class="w-full h-full object-cover inset-0"
+                        x-ref="'carouselVideo' + index"
+                        x-effect="if (item.type === 'video' && currentSlide === index) { $refs['carouselVideo' + index]?.pause(); $refs['carouselVideo' + index]?.currentTime = 0; }"
+                    ></video>
+                </div>
+            </template>
+
+            <button @click="prev()" class="carousel-btn prev">&lt</button>
+            <button @click="next()" class="carousel-btn next">&gt</button>
+        </div>
+
+        <div class="gap-section"></div>
+
+        <!-- Links -->
+        <div class="mb-10">
+            <h2 class="text-2xl font-semibold mb-4">Links</h2>
+            <div class="flex flex-wrap gap-3">
+                <template x-for="link in project.links">
+                    <a :href="link.url" target="_blank" class="px-4 py-2 rounded-xl bg-primary-500 text-white hover:bg-primary-600 transition flex items-center gap-2">
+                        <template x-if="link.svg">
+                            <span x-html="link.svg" class="inline-block align-middle"></span>
+                        </template>
+                        <span x-text="link.label"></span>
+                    </a>
+                </template>
+                <!-- Embed trigger: opens a pop-out with an embedded itch.io iframe -->
+                <button id="embed-trigger" class="px-4 py-2 rounded-xl bg-primary-500 text-white hover:bg-primary-600 transition flex items-center gap-2" title="Embed this game on the page">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    <span>Embed</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="gap-section"></div>
+
+        <!-- Full Description -->
+        <div class="mb-10">
+            <h2 class="text-2xl font-semibold mb-4">Description</h2>
+            <p class="text-gray-700 leading-relaxed" x-text="project.description"></p>
+        </div>
+
+        <!-- Code Example Block -->
+        <template x-for="(block, idx) in project.codeBlocks" :key="idx">
+            <div class="mb-10">
+                <div class="gap-section"></div>
+                <div class="flex items-center gap-3 mb-2">
+                <span class="text-primary-500 font-bold">Code Block #<span x-text="idx + 1"></span></span>
+                <span class="text-gray-600" x-text="block.summary"></span>
+                </div>
+                <div class="mb-3">
+                <span class="block text-gray-700" x-text="block.description"></span>
+                </div>
+                <div class="gap-section"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+                <!-- Multi-file code block -->
+                <template x-if="block.codeFiles">
+                    <div class="code-block-overview" x-data="multiFileCodeBlock(block.codeFiles)">
+                        <div class="code-block-overlay" @click="dropdownOpen = !dropdownOpen" style="cursor:pointer;position:relative;">
+                            <svg class="animate-bounce-code" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" style="vertical-align:middle;"><path stroke="#fff" stroke-width="2" d="M6 9l6 6 6-6"/></svg>
+                            <span x-text="selected"></span>
+                            <div x-show="dropdownOpen" @click.outside="dropdownOpen = false" style="position:absolute;top:2.2rem;left:0;z-index:10;background:#18181b;border-radius:0.5rem;box-shadow:0 2px 8px rgba(0,0,0,0.15);min-width:180px;">
+                                <template x-for="fileObj in block.codeFiles" :key="fileObj.file">
+                                    <div @click.stop="selected = fileObj.file; dropdownOpen = false" style="padding:0.5rem 1rem;color:#fff;cursor:pointer;white-space:nowrap;" :class="{'bg-gray-700': selected === fileObj.file}">
+                                        <span x-text="fileObj.label"></span>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <pre class="code-block-content" style="margin-top:0;"><code x-text="code"></code></pre>
+                    </div>
+                </template>
+                <!-- Single file code block -->
+                <template x-if="!block.codeFiles && block.file">
+                    <div class="code-block-overview" x-data="codeBlockLoader(block.file)">
+                    <div class="code-block-overlay">
+                        <svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' viewBox='0 0 24 24'><rect width='24' height='24' rx='4' fill='#334155'/><path stroke='#fff' stroke-width='2' d='M7 7h10v10H7z'/></svg>
+                        <span x-text="block.file"></span>
+                    </div>
+                    <pre class="code-block-content"><code x-text="code"></code></pre>
+                    </div>
+                </template>
+                <!-- Inline code block -->
+                <template x-if="!block.codeFiles && !block.file">
+                    <div class="code-block-overview">
+                    <div class="code-block-overlay">
+                        <svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' viewBox='0 0 24 24'><rect width='24' height='24' rx='4' fill='#334155'/><path stroke='#fff' stroke-width='2' d='M7 7h10v10H7z'/></svg>
+                        <span>Inline Code</span>
+                    </div>
+                    <pre class="code-block-content"><code x-text="block.code"></code></pre>
+                    </div>
+                </template>
+                <!-- Optional image/media -->
+                <template x-if="block.media">
+                    <div class="h-full">
+                    <img :src="block.media" class="rounded-xl shadow w-full object-fit:cover; object-cover" />
+                    </div>
+                </template>
+                </div>
+            </div>
+        </template>
+
+        <div class="gap-section"></div>
+
+        <!-- Additional Media Grid -->
+        <div>
+            <h2 class="text-2xl font-semibold mb-4">Additional Media</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <template x-for="(item, index) in project.addmedia">
+                    <div>
+                        <template x-if="item.type === 'image'">
+                            <img :src="item.src" class="rounded-xl object-cover w-full h-64 shadow" />
+                        </template>
+                        <template x-if="item.type === 'video'">
+                            <video :src="item.src" controls class="rounded-xl w-full h-64 object-cover shadow"></video>
+                        </template>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer b-fjjvsfsfew class="bg-white border-t mt-auto">
+    <div b-fjjvsfsfew class="container mx-auto px-4 py-6">
+        <div b-fjjvsfsfew class="text-center space-y-2">
+            <p b-fjjvsfsfew class="text-gray-600">&copy; 2025 - Ewan Prangell</p>
+            <p b-fjjvsfsfew class="text-sm text-gray-500 flex items-center justify-center gap-2">
+                <span b-fjjvsfsfew>Made with Magic</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Embed pop-out overlay (lazy-loads the itch.io embed iframe) -->
+    <div id="embed-overlay" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(2,6,23,0.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:12000;">
+        <div id="embed-box" style="width:min(1100px,96%);height:min(780px,92%);background:linear-gradient(180deg,rgba(255,255,255,0.98),rgba(250,247,255,0.95));border-radius:14px;padding:10px;box-shadow:0 30px 80px rgba(12,18,40,0.25);position:relative;display:flex;flex-direction:column;">
+            <button id="close-embed" aria-label="Close embed" style="position:absolute;right:12px;top:12px;background:rgba(0,0,0,0.6);color:#fff;border:none;width:36px;height:36px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;">&times;</button>
+            <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:8px;position:relative;">
+                <iframe id="embed-frame" src="" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write; encrypted-media" style="width:100%;height:100%;border-radius:10px;box-shadow:0 20px 60px rgba(2,6,23,0.4);background:#fff;"></iframe>
+                <div id="embed-fallback" style="position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(255,255,255,0.96),rgba(250,247,255,0.96));border-radius:10px;padding:18px;text-align:center;">
+                    <div style="max-width:560px;margin:auto;">
+                        <p style="font-weight:700;color:#231942;font-size:1.1rem;margin-bottom:8px;">This game cannot be embedded here.</p>
+                        <p style="color:#6b6b7d;margin-bottom:12px;">Some sites (including itch.io) may disallow embedding in iframes for security reasons. You can open the game on itch.io instead.</p>
+                        <div style="display:flex;gap:8px;justify-content:center;">
+                            <a id="fallback-open" href="https://northkentcollegegames.itch.io/infestationeducation" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl bg-primary-500 text-white" style="text-decoration:none;font-weight:700;">Open on itch.io</a>
+                            <button id="fallback-close" style="padding:10px 14px;border-radius:10px;border:1px solid rgba(16,24,40,0.06);background:transparent;">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="display:flex;justify-content:flex-end;gap:8px;padding:8px 6px 0 6px;">
+                <a id="open-on-itch" href="https://northkentcollegegames.itch.io/infestationeducation" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl bg-primary-500 text-white hover:bg-primary-600 transition flex items-center gap-2" style="text-decoration:none;font-weight:700;">Open on itch.io</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('projectPage', () => ({
+            currentSlide: 0,
+            project: {
+                title: "Infestation Education",
+                summary: "A dystopian narrative-driven title released on itch.io.",
+                description: "Contributed gameplay programming, systems integration, and technical documentation for Infestation Education, a Unity survival-horror project built by a 13-person team. Implemented modular systems including interaction handlers, combat behaviour, UI and inventory logic, event-driven menu elements, and a coroutine-based slideshow for the main menu. Worked closely with design and narrative teams to translate mechanics from the GDD into functional C# systems, integrating animations, sound events, and level scripting. Assisted with debugging, optimisation, and asset pipeline setup, supporting a final playable build released on itch.io alongside a full technical and design documentation package.",
+                tags: ["Unity Game"],
+                media: [
+                    { type: "image", src: "/assets/projects/infestatione/main_menu.png" },
+                    { type: "image", src: "/assets/projects/infestatione/main_building_map.png" },
+                    { type: "video", src: "/assets/projects/infestatione/main_menu_showcase.mp4" }
+                ],
+                links: [
+                    {
+                        svg: `<svg width="24" height="24" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.5 1a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13zm4.894 4a5.527 5.527 0 0 0-3.053-2.676c.444.84.765 1.74.953 2.676h2.1zm.582 2.995A5.11 5.11 0 0 0 14 7.5a5.464 5.464 0 0 0-.213-1.5h-2.342c.032.331.055.664.055 1a10.114 10.114 0 0 1-.206 2h2.493c.095-.329.158-.665.19-1.005zm-3.535 0l.006-.051A9.04 9.04 0 0 0 10.5 7a8.994 8.994 0 0 0-.076-1H6.576A8.82 8.82 0 0 0 6.5 7a8.98 8.98 0 0 0 .233 2h3.534c.077-.332.135-.667.174-1.005zM10.249 5a8.974 8.974 0 0 0-1.255-2.97C8.83 2.016 8.666 2 8.5 2a3.62 3.62 0 0 0-.312.015l-.182.015L8 2.04A8.97 8.97 0 0 0 6.751 5h3.498zM5.706 5a9.959 9.959 0 0 1 .966-2.681A5.527 5.527 0 0 0 3.606 5h2.1zM3.213 6A5.48 5.48 0 0 0 3 7.5 5.48 5.48 0 0 0 3.213 9h2.493A10.016 10.016 0 0 1 5.5 7c0-.336.023-.669.055-1H3.213zm2.754 4h-2.36a5.515 5.515 0 0 0 3.819 2.893A10.023 10.023 0 0 1 5.967 10zM8.5 12.644A8.942 8.942 0 0 0 9.978 10H7.022A8.943 8.943 0 0 0 8.5 12.644zM11.033 10a10.024 10.024 0 0 1-1.459 2.893A5.517 5.517 0 0 0 13.393 10h-2.36z"/></svg>`,
+                        label: "Live Site",
+                        url: "https://northkentcollegegames.itch.io/infestationeducation"
+                    }
+                ],
+                codeBlocks: [
+                        {
+                            file: "/assets/code/infestatione/image/ImageSlideshowBehaviour.cs",
+                            summary: "A simple image carousel script for a main menu.",
+                            description: "This codeblock demonstrates a robus soloution to a Unity image carousel implementation using coroutine-based timing and fade interpolation. This system uses iteration through a collection of slide transforms, fading to black between transitions, activating only the current slide, and then fading back to clear. This development, has configurable timings for fade and slide duration to make it a flexible background system for main menus or UI screens, while maintaining a clean separation between slideshow logic and UI visuals through using a dedicated overlay image.",
+                            media: "/assets/projects/infestatione/main_menu_showcase.gif"
+                        }
+                ],
+                addmedia: [
+                    { type: "image", src: "/assets/projects/infestatione/main_menu.png" },
+                    { type: "image", src: "/assets/projects/infestatione/main_building_map.png" },
+                    { type: "video", src: "/assets/projects/infestatione/main_menu_showcase.mp4" }
+                ],
+            },
+            next() {
+                this.currentSlide = (this.currentSlide + 1) % this.project.media.length;
+            },
+            prev() {
+                this.currentSlide = (this.currentSlide - 1 + this.project.media.length) % this.project.media.length;
+            }
+        })),
+        Alpine.data('codeBlockLoader', (file) => ({
+        code: '',
+        async init() {
+            if (file) {
+                try {
+                    const res = await fetch(file);
+                    this.code = await res.text();
+                } catch (e) {
+                    this.code = '// Error loading file';
+                }
+            }
+        }
+    })),
+    Alpine.data('multiFileCodeBlock', (files) => ({
+        selected: files[0]?.file,
+        code: '',
+        dropdownOpen: false,
+        async fetchCode() {
+            if (this.selected) {
+                try {
+                    const res = await fetch(this.selected);
+                    this.code = await res.text();
+                } catch (e) {
+                    this.code = '// Error loading file';
+                }
+            }
+        },
+        init() {
+            this.fetchCode();
+            this.$watch('selected', () => {
+                this.fetchCode();
+            });
+        }
+    }));
+    });
+</script>
+<script>
+    // Embed pop-out handlers: lazy-load the itch.io embed iframe when opened
+    document.addEventListener('DOMContentLoaded', function() {
+        const trigger = document.getElementById('embed-trigger');
+        const overlay = document.getElementById('embed-overlay');
+        const frame = document.getElementById('embed-frame');
+        const closeBtn = document.getElementById('close-embed');
+        const itchUrl = 'https://northkentcollegegames.itch.io/infestationeducation/embed';
+
+        const fallback = document.getElementById('embed-fallback');
+        const fallbackClose = document.getElementById('fallback-close');
+
+        let loadTimer = null;
+
+        // Defensive cleanup: ensure embed overlay starts closed
+        if (overlay) {
+            overlay.style.opacity = '0';
+            overlay.style.pointerEvents = 'none';
+        }
+        if (fallback) fallback.style.display = 'none';
+
+        // Preload the embed by opening and immediately closing on page load
+        if (frame && !frame.getAttribute('src')) {
+            frame.setAttribute('src', 'https://northkentcollegegames.itch.io/infestationeducation/embed');
+        }
+
+        if (trigger && overlay && frame) {
+            trigger.addEventListener('click', function (e) {
+                e.preventDefault();
+                // set iframe src the first time to avoid unnecessary loads
+                if (!frame.getAttribute('src')) {
+                    frame.setAttribute('src', itchUrl);
+                }
+
+                // show overlay
+                overlay.style.opacity = '1';
+                overlay.style.pointerEvents = 'all';
+                document.documentElement.style.overflow = 'hidden';
+                document.body.style.overflow = 'hidden';
+
+                /*// start a short timer — if iframe doesn't signal load quickly, show fallback
+                if (loadTimer) clearTimeout(loadTimer);
+                // hide fallback while waiting
+                if (fallback) fallback.style.display = 'none';
+
+                loadTimer = setTimeout(function() {
+                    // iframe likely blocked from embedding
+                    if (fallback) fallback.style.display = 'flex';
+                }, 2200);*/
+
+                // show fallback immediately (game currently not accessible)
+                if (fallback) fallback.style.display = 'flex';
+
+                // clear timer when iframe loads
+                frame.onload = function() {
+                    if (loadTimer) { clearTimeout(loadTimer); loadTimer = null; }
+                    if (fallback) fallback.style.display = 'none';
+                };
+            });
+        }
+
+        function closeEmbed() {
+            if (!overlay) return;
+            overlay.style.opacity = '0';
+            overlay.style.pointerEvents = 'none';
+            // don't clear src to keep quick reopen; uncomment to free memory
+            // frame.setAttribute('src', '');
+            if (loadTimer) { clearTimeout(loadTimer); loadTimer = null; }
+            if (fallback) fallback.style.display = 'none';
+            document.documentElement.style.overflow = '';
+            document.body.style.overflow = '';
+        }
+
+        if (closeBtn) closeBtn.addEventListener('click', closeEmbed);
+        if (overlay) overlay.addEventListener('click', function(e) { if (e.target === overlay) closeEmbed(); });
+        document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeEmbed(); });
+
+        if (fallbackClose) fallbackClose.addEventListener('click', closeEmbed);
+    });
+</script>
+</body>
+</html>

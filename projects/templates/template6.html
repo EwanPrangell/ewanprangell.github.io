@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full" xmlns:x-transition="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Page Template - Ewan Prangell</title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Projects - Ewan Prangell">
+    <meta name="description" content="A collection of my development projects with their wiki pages. Additionally it shows my journey through learning.">
+    <meta name="author" content="Ewan Prangell">
+    <meta name="keywords" content="web development, programming, developer portfolio">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ewanprangell.github.io/projects/templates/template6">
+    <meta property="og:site_name" content="Ewan Prangell">
+    <meta property="og:title" content="Projects - Ewan Prangell">
+    <meta property="og:description" content="A collection of my development projects with their wiki pages. Additionally it shows my journey through learning.">
+    <meta property="og:image" content="https://ewanprangell.github.io/assets/site-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://ewanprangell.github.io/projects/templates/template6">
+    <meta property="twitter:title" content="Projects - Ewan Prangell">
+    <meta property="twitter:description" content="A collection of my development projects with their wiki pages. Additionally it shows my journey through learning.">
+    <meta property="twitter:image" content="https://ewanprangell.github.io/assets/site-image.png">
+    <meta property="twitter:creator" content="@PrangellDev">
+
+    <!-- Theme Color for browsers -->
+    <meta name="theme-color" content="#EC4899">
+
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/animations.css" />
+    <link rel="stylesheet" href="/css/index.css" />
+    <script nonce="SUIiDKvdAKfAQ83JF6r8WpO/NmruLpbv8ihFYt&#x2B;TqvM=" defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <link rel="icon" href="/assets/prangell-icon.png"/>
+</head>
+<body class="min-h-full flex flex-col bg-gradient-to-br from-primary-50 to-secondary-50" x-data="projectPage">
+
+<!-- HEADER -->
+<header class="bg-white shadow-sm relative">
+    <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <a href="/index.html" class="text-2xl font-display font-bold hover:opacity-80 transition-all px-2 py-1">Ewan Prangell</a>
+
+        <a b-fjjvsfsfew href="/projects.html"
+           class="nav-link group relative flex items-center gap-1 px-2 py-1 rounded-lg transition-all duration-300"
+           :class="{ 'nav-link-active': activeSection.includes('projects.html') }"
+           aria-label="View all projects">
+            <span b-fjjvsfsfew>← Back to Projects</span>
+            <span b-fjjvsfsfew class="absolute inset-x-0 -bottom-1 h-0.5 bg-primary-500 transform origin-left transition-transform scale-x-0 group-hover:scale-x-100" aria-hidden="true"></span>
+        </a>
+    </nav>
+</header>
+
+<main class="container mx-auto px-4 py-12 max-w-5xl">
+    <div class="relative bg-white ring-1 ring-gray-900/5 rounded-2xl p-8 shadow-lg">
+
+        <!-- Decorative blob -->
+        <div class="absolute inset-0 flex items-center justify-center opacity-10 -z-10">
+            <div class="rotating-background blur-xl"></div>
+        </div>
+
+        <!-- Title + Summary -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-gray-900 mb-3" x-text="project.title"></h1>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto" x-text="project.summary"></p>
+        </div>
+
+        <!-- Gap -->
+        <div class="mb-10">
+            <h2 class="text-2xl font-semibold mb-4"></h2>
+        </div>
+
+        <!-- Media Carousel -->
+        <div class="relative w-full h-full rounded-xl overflow-hidden shadow-md mb-10">
+            <!--<template x-for="(item, index) in project.media" :key="index">
+                <template x-if="item.type === 'image'">
+                    <img :src="item.src" x-show="currentSlide === index" class="w-full h-full object-cover inset-0 transition-opacity duration-300" />
+                </template>-->
+                <!--<template x-if="item.type === 'video'">
+                    <video :src="item.src" x-show="currentSlide === index" controls class="w-full h-full object-cover inset-0"></video>
+                </template>-->
+
+                <!--<template x-if="item.type === 'video'">
+                    <video :src="item.src" x-show="currentSlide === index" controls class="w-full h-full object-cover inset-0"></video>
+                </template>
+            </template>-->
+
+            <template x-for="(item, index) in project.media" :key="index">
+                <div>
+                    <img x-show="item.type === 'image' && currentSlide === index" :src="item.src" class="w-full h-full object-cover inset-0 transition-opacity duration-300" />
+                    <video
+                        x-show="item.type === 'video' && currentSlide === index"
+                        :src="item.src"
+                        controls
+                        class="w-full h-full object-cover inset-0"
+                        x-ref="'carouselVideo' + index"
+                        x-effect="if (item.type === 'video' && currentSlide === index) { $refs['carouselVideo' + index]?.pause(); $refs['carouselVideo' + index]?.currentTime = 0; }"
+                    ></video>
+                </div>
+            </template>
+
+            <button @click="prev()" class="carousel-btn prev">&lt</button>
+            <button @click="next()" class="carousel-btn next">&gt</button>
+        </div>
+
+        <!-- Gap -->
+        <div class="mb-10">
+            <h2 class="text-2xl font-semibold mb-4"></h2>
+        </div>
+
+        <!-- Links -->
+        <div class="mb-10">
+            <h2 class="text-2xl font-semibold mb-4">Links</h2>
+            <div class="flex flex-wrap gap-3">
+                <template x-for="link in project.links">
+                    <!--<a :href="link.url" target="_blank" class="px-4 py-2 rounded-xl bg-primary-500 text-white hover:bg-primary-600 transition" x-text="link.label"></a>-->
+                    <a :href="link.url" target="_blank" class="px-4 py-2 rounded-xl bg-primary-500 text-white hover:bg-primary-600 transition flex items-center gap-2">
+                        <template x-if="link.svg">
+                            <span x-html="link.svg" class="inline-block align-middle"></span>
+                        </template>
+                        <span x-text="link.label"></span>
+                    </a>
+                </template>
+            </div>
+        </div>
+
+        <!-- Gap -->
+        <div class="mb-10">
+            <h2 class="text-2xl font-semibold mb-4"></h2>
+        </div>
+
+        <!-- Full Description -->
+        <div class="mb-10">
+            <h2 class="text-2xl font-semibold mb-4">Description</h2>
+            <p class="text-gray-700 leading-relaxed" x-text="project.description"></p>
+        </div>
+
+        <!-- Gap -->
+        <div class="mb-10">
+            <h2 class="text-2xl font-semibold mb-4"></h2>
+        </div>
+
+        <!-- Code Example Block -->
+        <!--<div class="mb-12">
+            <h2 class="text-2xl font-semibold mb-4">Code Example</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                <pre class="code-block"><code x-text="project.code"></code></pre>
+                <div>
+                    <img :src="project.codeMedia" class="rounded-xl shadow" />
+                </div>
+            </div>
+        </div>-->
+
+        <!--<div class="mb-12">
+            <h2 class="text-2xl font-semibold mb-4">Code Examples</h2>
+            <template x-for="(block, idx) in project.codeBlocks" :key="idx">
+                <div class="mb-10">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="text-primary-500 font-bold">Code Block #<span x-text="idx + 1"></span></span>
+                        <span class="text-gray-600" x-text="block.summary"></span>
+                    </div>
+                    <div class="mb-3">
+                        <span class="block text-gray-700" x-text="block.description"></span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                        <pre class="code-block"><code x-text="block.code"></code></pre>
+                        <template x-if="block.media">
+                            <div>
+                                <img :src="block.media" class="rounded-xl shadow" />
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+            <template x-for="(block, idx) in project.codeBlocks" :key="idx">
+                <div class="mb-10">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="text-primary-500 font-bold">Code Block #<span x-text="idx + 1"></span></span>
+                        <span class="text-gray-600" x-text="block.summary"></span>
+                    </div>
+                    <div class="mb-3">
+                        <span class="block text-gray-700" x-text="block.description"></span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                        <template x-if="block.file">
+                            <pre class="code-block" x-data="codeBlockLoader(block.file)"><code x-text="code"></code></pre>
+                        </template>
+                        <template x-if="!block.file">
+                            <pre class="code-block"><code x-text="block.code"></code></pre>
+                        </template>
+                        <template x-if="block.media">
+                            <div>
+                                <img :src="block.media" class="rounded-xl shadow" />
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+        </div>-->
+
+        <div class="mb-12">
+            <h2 class="text-2xl font-semibold mb-4">Code Examples</h2>
+            <template x-for="(block, idx) in project.codeBlocks" :key="idx">
+                <div class="mb-10">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="text-primary-500 font-bold">Code Block #<span x-text="idx + 1"></span></span>
+                        <span class="text-gray-600" x-text="block.summary"></span>
+                    </div>
+                    <div class="mb-3">
+                        <span class="block text-gray-700" x-text="block.description"></span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                        <template x-if="block.file">
+                            <div class="code-block-overview" x-data="codeBlockLoader(block.file)">
+                                <div class="code-block-overlay">
+                                    <svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' viewBox='0 0 24 24'><rect width='24' height='24' rx='4' fill='#334155'/><path stroke='#fff' stroke-width='2' d='M7 7h10v10H7z'/></svg>
+                                    <span x-text="block.file"></span>
+                                </div>
+                                <pre class="code-block-content"><code x-text="code"></code></pre>
+                            </div>
+                        </template>
+                        <template x-if="!block.file">
+                            <div class="code-block-overview">
+                                <div class="code-block-overlay">
+                                    <svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' viewBox='0 0 24 24'><rect width='24' height='24' rx='4' fill='#334155'/><path stroke='#fff' stroke-width='2' d='M7 7h10v10H7z'/></svg>
+                                    <span>Inline Code</span>
+                                </div>
+                                <pre class="code-block-content"><code x-text="block.code"></code></pre>
+                            </div>
+                        </template>
+                        <template x-if="block.media">
+                            <div>
+                                <img :src="block.media" class="rounded-xl shadow" style="min-height:256px;max-height:256px;object-fit:cover;width:100%" />
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+        <!-- Additional Media Grid -->
+        <div>
+            <h2 class="text-2xl font-semibold mb-4">Additional Media</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <template x-for="(item, index) in project.media">
+                    <div>
+                        <template x-if="item.type === 'image'">
+                            <img :src="item.src" class="rounded-xl object-cover w-full h-64 shadow" />
+                        </template>
+                        <template x-if="item.type === 'video'">
+                            <video :src="item.src" controls class="rounded-xl w-full h-64 object-cover shadow"></video>
+                        </template>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer b-fjjvsfsfew class="bg-white border-t mt-auto">
+    <div b-fjjvsfsfew class="container mx-auto px-4 py-6">
+        <div b-fjjvsfsfew class="text-center space-y-2">
+            <p b-fjjvsfsfew class="text-gray-600">&copy; 2025 - Ewan Prangell</p>
+            <p b-fjjvsfsfew class="text-sm text-gray-500 flex items-center justify-center gap-2">
+                <span b-fjjvsfsfew>Made with Magic</span>
+            </p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('projectPage', () => ({
+            currentSlide: 0,
+            project: {
+                title: "Project Title",
+                summary: "Short 2–3 line summary describing the project.",
+                description: "Full detailed project description goes here...",
+                media: [
+                    { type: "image", src: "/assets/project_template/2025-05-03_15.47.45.png" },
+                    { type: "image", src: "/assets/project_template/2025-06-19_11.46.57.png" },
+                    { type: "video", src: "/assets/project_template/All_Night_Fury_animations_and_fetch_and_baby_Night_Fury.mp4" }
+                ],
+                links: [
+                    {
+                        svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/></svg>`,
+                        label: "GitHub",
+                        url: "#"
+                    },
+                    { label: "Live Demo", url: "#" }
+                ],
+                //code: `function hello() {\n  console.log("Hello World");\n}`,
+                //codeMedia: "/assets/project_template/2025-06-19_11.46.57.png",
+                codeBlocks: [
+                        {
+                            code: `function hello() {\n  console.log("Hello World");\n}`,
+                            summary: "Basic hello world function.",
+                            description: "A simple function that logs 'Hello World' to the console.",
+                            media: "/assets/project_template/2025-06-19_11.46.57.png"
+                        },
+                        {
+                            code: `const add = (a, b) => a + b;`,
+                            summary: "Simple addition arrow function.",
+                            description: "A short function that adds two numbers.",
+                            media: null
+                        }
+                ],
+            },
+            next() {
+                this.currentSlide = (this.currentSlide + 1) % this.project.media.length;
+            },
+            prev() {
+                this.currentSlide = (this.currentSlide - 1 + this.project.media.length) % this.project.media.length;
+            }
+        })),
+        Alpine.data('codeBlockLoader', (file) => ({
+        code: '',
+        async init() {
+            if (file) {
+                try {
+                    const res = await fetch(file);
+                    this.code = await res.text();
+                } catch (e) {
+                    this.code = '// Error loading file';
+                }
+            }
+        }
+    }));
+    });
+</script>
+
+<style>
+    .nav-link {
+        color: rgb(75 85 99);
+        font-weight: 500;
+        outline: none;
+    }
+
+    .nav-link:hover {
+        color: rgb(85, 0, 255);
+    }
+
+    .nav-link:focus-visible {
+        outline: 2px solid rgb(78, 39, 219);
+        outline-offset: 2px;
+        border-radius: 0.5rem;
+    }
+
+    .nav-link-active {
+        color: rgb(84, 39, 219);
+        background-color: rgb(253 242 248);
+    }
+
+    @keyframes gradient-shift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .carousel-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255,255,255,0.7);
+        border: none;
+        padding: 8px 14px;
+        font-size: 18px;
+        cursor: pointer;
+        border-radius: 6px;
+    }
+
+    .prev {
+        left: 10px;
+        font-weight: bolder;
+    }
+    .next {
+        right: 10px;
+        font-weight: bolder;
+    }
+
+    /* Code block overview styles */
+    .code-block-overview {
+        position: relative;
+        background: #18181b;
+        border-radius: 1rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        overflow: hidden;
+        min-height: 256px;
+        max-height: 256px;
+        display: flex;
+        flex-direction: column;
+    }
+    .code-block-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(30,41,59,0.95);
+        color: #fff;
+        font-size: 0.95rem;
+        padding: 0.5rem 1rem;
+        z-index: 2;
+        border-bottom: 1px solid #334155;
+        font-family: 'Fira Mono', 'Consolas', monospace;
+        letter-spacing: 0.02em;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .code-block-content {
+        margin-top: 2.2rem;
+        padding: 1rem;
+        overflow: auto;
+        color: #e5e7eb;
+        font-size: 0.98rem;
+        font-family: 'Fira Mono', 'Consolas', monospace;
+        white-space: pre;
+        flex: 1;
+    }
+</style>
+
+</body>
+</html>

@@ -1,0 +1,472 @@
+@keyframes bounce-slow {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-25%) rotate(5deg);
+    }
+}
+
+.animate-bounce-slow {
+    animation: bounce-slow 2s infinite;
+}
+
+@keyframes wiggle {
+    0%, 100% {
+        transform: rotate(-3deg);
+    }
+    50% {
+        transform: rotate(3deg);
+    }
+}
+
+.animate-wiggle {
+    animation: wiggle 1s ease-in-out infinite;
+}
+
+@keyframes heart-beat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.animate-heart-beat {
+    animation: heart-beat 1s ease-in-out infinite;
+}
+
+@keyframes gradient-xy {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+.animate-gradient-xy {
+    animation: gradient-xy 15s ease infinite;
+    background-size: 400% 400%;
+}
+
+/* Achievement notification */
+@keyframes slide-in {
+    0% { transform: translateX(100%); }
+    10% { transform: translateX(0); }
+    90% { transform: translateX(0); }
+    100% { transform: translateX(100%); }
+}
+
+.achievement {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #fdf2f8 0%, #ccfbf1 100%);
+    border: 2px solid #5e48ec;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    animation: slide-in 4s ease-in-out forwards;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.achievement-icon {
+    font-size: 2rem;
+    animation: pop 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes pop {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* Sparkle effect for cards */
+@keyframes sparkle {
+    0%, 100% { opacity: 0; transform: scale(0); }
+    50% { opacity: 1; transform: scale(1); }
+}
+
+.sparkle {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: radial-gradient(circle, #fff 0%, transparent 70%);
+    pointer-events: none;
+}
+
+/* Cute loading animation */
+.loading-heart {
+    display: inline-block;
+    color: var(--color-primary-500);
+    animation: heart-beat 1s ease-in-out infinite;
+}
+
+/* Improved card hover effect */
+.t-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.t-card:hover {
+    transform: translateY(-5px) rotate(1deg);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.t-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(var(--secondary-200-rgb), 0.5), rgba(var(--primary-200-rgb), 0.5));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.t-card:hover::before {
+    opacity: 1;
+}
+
+/* Playful loading state */
+.loading-emoji {
+    display: inline-block;
+    animation: loadingEmoji 1.5s infinite;
+}
+
+@keyframes loadingEmoji {
+    0% { content: "🤔"; }
+    25% { content: "💭"; }
+    50% { content: "💡"; }
+    75% { content: "✨"; }
+    100% { content: "🤔"; }
+}
+
+/* Confetti animation for when setting a new mistake */
+@keyframes confetti {
+    0% { transform: translateY(0) rotateZ(0); opacity: 1; }
+    100% { transform: translateY(1000%) rotateZ(720deg); opacity: 0; }
+}
+
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background-color: var(--color-primary-500);
+    animation: confetti 1s ease-out forwards;
+}
+
+.confetti:nth-child(2n) {
+    background-color: var(--color-secondary-500);
+    animation-delay: 0.2s;
+}
+
+.confetti:nth-child(3n) {
+    background-color: var(--color-accent-500);
+    animation-delay: 0.4s;
+}
+
+/* Tag hover effect */
+.tag {
+    transition: all 0.2s ease;
+}
+
+.tag:hover {
+    transform: scale(1.1) rotate(-2deg);
+}
+
+/* Fun loading spinner */
+.fun-spinner {
+    width: 40px;
+    height: 40px;
+    position: relative;
+}
+
+.fun-spinner::before,
+.fun-spinner::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: var(--color-primary-500);
+    opacity: 0.6;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.fun-spinner::after {
+    animation-delay: -1s;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1);
+    }
+}
+
+/* Floating animation */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.1;
+    }
+    25% {
+        transform: translateY(-15px) rotate(5deg);
+        opacity: 0.15;
+    }
+    75% {
+        transform: translateY(15px) rotate(-5deg);
+        opacity: 0.05;
+    }
+}
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Floating emoji animation */
+@keyframes float-away {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-50px) scale(1.5);
+        opacity: 0;
+    }
+}
+
+.float-emoji {
+    animation: float-away 1s ease-out forwards;
+}
+
+/* Glowing effect */
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(236, 72, 153, 0.2),
+        0 0 20px rgba(236, 72, 153, 0.1);
+    }
+    50% {
+        box-shadow: 0 0 10px rgba(236, 72, 153, 0.4),
+        0 0 30px rgba(236, 72, 153, 0.2);
+    }
+}
+
+.glow-effect {
+    animation: glow 3s ease-in-out infinite;
+}
+
+/* Cursor trail effect */
+.trail-dot {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+}
+
+/* Matrix mode effects */
+.matrix-mode {
+    background-color: black !important;
+    color: #20c20e !important;
+}
+
+.matrix-stream {
+    position: fixed;
+    top: -100px;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1;
+    z-index: 1000;
+    pointer-events: none;
+    animation: matrix-fall linear infinite;
+}
+
+.matrix-char {
+    color: #20c20e;
+    text-shadow: 0 0 8px #20c20e;
+    opacity: 0;
+    animation: matrix-glow 2s linear infinite;
+}
+
+@keyframes matrix-fall {
+    to { transform: translateY(200vh); }
+}
+
+@keyframes matrix-glow {
+    0% { opacity: 0; }
+    30% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* Paint mode effects */
+.paint-mode {
+    cursor: crosshair;
+}
+
+.paint-stroke {
+    position: fixed;
+    font-size: 24px;
+    pointer-events: none;
+    transform-origin: center;
+    z-index: 1000;
+    animation: paint-fade 2s forwards;
+}
+
+.brush-panel {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 10px;
+    border-radius: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1001;
+    display: flex;
+    gap: 10px;
+}
+
+.brush-panel button {
+    font-size: 24px;
+    background: none;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 5px;
+    transition: all 0.3s ease;
+}
+
+.brush-panel button:hover {
+    border-color: #4ecdc4;
+    transform: scale(1.2);
+}
+
+@keyframes paint-fade {
+    0% { opacity: 1; transform: scale(1) rotate(0deg); }
+    100% { opacity: 0; transform: scale(1.5) rotate(360deg); }
+}
+
+/* Bounce mode effects */
+.bounce-mode {
+    cursor: pointer;
+}
+
+.bounce-enabled {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bounce-enabled:hover {
+    transform: scale(1.02);
+}
+
+.element-bounce {
+    animation: element-bounce 1s cubic-bezier(0.36, 0, 0.66, 1.5);
+    transform-origin: center bottom;
+}
+
+.bounce-particle {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+@keyframes element-bounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-30px) scale(1.1); }
+}
+
+/* Add a subtle bounce indicator */
+.bounce-enabled::after {
+    content: '↕️';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.bounce-enabled:hover::after {
+    opacity: 0.7;
+}
+
+/* Enhanced bubble styles */
+.interactive-bubble {
+    cursor: pointer;
+    background: linear-gradient(
+            135deg,
+            rgba(236, 72, 153, 0.3),  /* Primary pink color */
+            rgba(236, 72, 153, 0.1)
+    );
+    border: 1px solid rgba(236, 72, 153, 0.4);  /* Matching border */
+    box-shadow: 0 0 10px rgba(236, 72, 153, 0.2);  /* Subtle glow */
+    transition: transform 0.3s ease;
+    z-index: 10;  /* Keep above background but below content */
+}
+
+.interactive-bubble:hover {
+    transform: scale(1.1);
+    background: linear-gradient(
+            135deg,
+            rgba(236, 72, 153, 0.4),
+            rgba(236, 72, 153, 0.2)
+    );
+}
+
+.interactive-bubble.popping {
+    animation: pop 0.3s ease-out forwards;
+}
+
+.bubble-sparkle {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    pointer-events: none;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.bubble-fact {
+    position: fixed;
+    background: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    animation: fact-appear 0.3s ease-out;
+    max-width: 250px;
+    text-align: center;
+}
+
+.bubble-fact.fade-out {
+    animation: fact-disappear 0.5s ease-out forwards;
+}
+
+@keyframes pop {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1.5); opacity: 0; }
+}
+
+@keyframes fact-appear {
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+@keyframes fact-disappear {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+}
