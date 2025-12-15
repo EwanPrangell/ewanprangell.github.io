@@ -69,6 +69,8 @@
         <!-- Title + Summary -->
         <div class="text-center mb-10">
             <h1 class="text-4xl font-bold text-gray-900 mb-3" x-text="project.title"></h1>
+            <h2 class="text-2xl font-bold text-gray-700 mb-3" x-text="project.subtitle"></h2>
+            <h2 class="text-2x1 font-bold text-gray-700 mb-3" aria-label="Creation Date" x-text="formatDate(project.date)"></h2>
             <div class="small-gap-section"></div>
             <div class="flex flex-wrap gap-2 justify-center mb-4">
                 <template x-for="tag in project.tags" :key="tag">
@@ -121,20 +123,41 @@
 
         <!-- Full Description -->
         <div class="mb-10">
-            <h2 class="text-2xl font-semibold mb-4">Description</h2>
-            <p class="text-gray-700 leading-relaxed" x-text="project.description"></p>
+            <h2 class="text-2xl font-semibold mb-4">The Challange</h2>
+            <p class="text-gray-700 leading-relaxed" x-text="project.challenge"></p>
+            
+            <div class="gap-section"></div>
+
+            <h2 class="text-2xl font-semibold mb-4">Technical Approach</h2>
+            <div class="space-y-4 text-gray-700 leading-relaxed">
+              <template x-for="(paragraph, i) in technicalApproachParagraphs" :key="i">
+                <p x-text="paragraph"></p>
+              </template>
+            </div>
+
+            <div class="gap-section"></div>
+
+            <h2 class="text-2xl font-semibold mb-4">Impact and Outcomes</h2>
+            <div class="space-y-4 text-gray-700 leading-relaxed">
+              <template x-for="(paragraph, i) in impactOutcomeParagraphs" :key="i">
+                <p x-text="paragraph"></p>
+              </template>
+            </div>
         </div>
 
         <!-- Code Example Block -->
+        <div class="gap-section"></div>
+        <div class="gap-section"></div>
+        <h2 class="text-2xl font-semibold mb-4">Code Examples</h2>
         <template x-for="(block, idx) in project.codeBlocks" :key="idx">
             <div class="mb-10">
-                <div class="gap-section"></div>
+              <div class="gap-section"></div>
                 <div class="flex items-center gap-3 mb-2">
-                <span class="text-primary-500 font-bold">Code Block #<span x-text="idx + 1"></span></span>
-                <span class="text-gray-600" x-text="block.summary"></span>
+                  <span class="text-primary-500 font-bold">Code Block #<span x-text="idx + 1"></span></span>
+                  <span class="text-gray-600" x-text="block.summary"></span>
                 </div>
                 <div class="mb-3">
-                <span class="block text-gray-700" x-text="block.description"></span>
+                  <span class="block text-gray-700" x-text="block.breakdown"></span>
                 </div>
                 <div class="gap-section"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
@@ -182,9 +205,21 @@
                     </div>
                 </template>
                 </div>
+                
+                <div class="mb-3">
+                  <div class="gap-section"></div>
+                  <h2 class="text-2xl font-semibold mb-4">Key Decisions</h2>
+                  <span class="block text-gray-700" x-text="block.keyDecisions"></span>
+                </div>
+                <div class="mb-3">
+                  <div class="gap-section"></div>
+                  <h2 class="text-2xl font-semibold mb-4">What I Learned</h2>
+                  <span class="block text-gray-700" x-text="block.whatILearned"></span>
+                </div>
             </div>
         </template>
 
+        <div class="gap-section"></div>
         <div class="gap-section"></div>
 
         <!-- Additional Media Grid -->
@@ -244,8 +279,12 @@
             currentSlide: 0,
             project: {
                 title: "LLGDragons: Re-Fabricated",
+                subtitle: "Minecraft Fabric 1.20.1 Mod",
+                date:"2025-03-04T09:21:12.5674654",
                 summary: "A re-creation of the old LLGDragons mod created by LittleLizardGaming and Tiny Turtle for their original HTTYD series in 1.10.2. This mod re-creates the features shown in the series from the mod and ports it to fabric 1.20.1.",
-                description: "A Fabric 1.20.1 mod adding custom entities, items, and game systems. Modernising an original Forge 1.10.2 concept for a current public release, demonstrating my ability to reverse-engineer and rebuild legacy code.",
+                challenge: "The challenge of this project was to reverse-engineer the original Forge 1.10.2 mod, which was entirely closed-source and never publicly released. Due to this the only evidence of this mod came from videos, furthermore, I had to rebuild this mod using the Fabric modding framework for Minecraft 1.20.1. This involved understanding the original functional intensions, adapting it to a completely different and unique modding framework, and ensuring compatibility with later versions of Minecraft while adding modern features and optimizations.",
+                technicalApproach: "To tackle this project, I began by thoroughly analysing available video content and any existing documentation related to the original LLGDragons mod. I identified key features, mechanics, and entities that needed to be recreated. Next, I familiarized myself with the Fabric modding framework, particularly in terms of entity management, item creation, and event handling. I then designed and implemented custom entities, items, and game systems using Fabric's APIs, ensuring that they closely mirrored the behaviour and aesthetics of the original mod. Throughout the development process, I utilized modern programming practices and optimizations to enhance performance and maintainability. Finally, I conducted extensive testing to ensure that all features functioned correctly within the Minecraft 1.20.1 environment.\n\nI have had to reverse engineer the original mod by watching videos of it in action and taking note of the features and mechanics that were present, additionally, I have had the luck of being able to find some old documentation of the mod locating designs of the dragons, different functions / abilities that they carry, and some more data, however, the data I did find was not as strong as watching the videos myself to be able to break apart the features and designs. From there, I planned out how to implement these features using techniques such as decomposition and abstraction allowing me to focus on the most important features and create abstract and extendable classes focusing on these features.\n\nThis technical approach put me on a path using modern modding techniques such as Fabric and GeckoLib, allowing me to create a modular and extendable codebase that can be built upon in the future. Furthermore, the utilisation of GeckoLib has allowed me to easily add and animate entities due to its focus as an animation library that is easy to use and maintain. I utilised data-driven design principles to allow for easy addition of new dragon variants and features, making use of data packs and resource packs to allow players to add their own content easily. Following original features, I have managed to add modern features such as improved AI, better performance optimizations, and compatibility with the latest Minecraft versions along with original features such as the sleeping mechanic that is dictated by the day/night cycle and has an extendable method for nocturnal creatures.\n\nI have been able to create custom entity behaviours, animations, and interactions that closely resemble those seen in the original mod, while also introducing new mechanics that enhance gameplay. Add data-driven variant systems, allowing for a diverse range of dragon appearances and behaviours that can be easily expanded upon by players and modders alike. Create persistence between save and load cycles, ensuring that player progress and dragon states are maintained accurately.",
+                impactOutcome: "This was my first project using the GeckoLib animation library, marking a significant milestone in my journey as a Minecraft mod developer. Successfully recreating the LLGDragons mod not only demonstrated my ability to reverse-engineer and adapt legacy code but also showcased my proficiency in modern modding techniques. Additionally, this project has expanded my knowledge of entity animation and behaviour within Minecraft, paving the way for more complex and engaging mods in the future. Furthermore, I have gained valuable experience in data-driven design, allowing for greater flexibility and customization in mod development. Overall, this project has solidified my skills and confidence as a developer, opening new opportunities for creative expression within the Minecraft modding community while also teaching me valuable lessons in developing debugging skills for complex entity behaviours.\n\nThis project has taught me a lot about modding in Minecraft using modern frameworks such as Fabric and libraries such as GeckoLib, allowing me to create complex entity behaviours and animations that were not possible before. Additionally, I have learned a lot about reverse engineering and adapting legacy code, which has been a valuable skill in my development journey. This project has also allowed me to showcase my skills as a developer and has opened new opportunities for me in the Minecraft modding and games communities. Overall, this project has been a significant milestone in my development journey and has taught me valuable lessons that I will carry forward into future projects.",
                 tags: ["Minecraft", "Mod", "Java"],
                 media: [
                     { type: "image", src: "/assets/projects/llgdragons/nightfury_variants.png" },
@@ -263,7 +302,9 @@
                         {
                             file: "/assets/code/llgdragons/sleeping/SleepingDragonExample.java",
                             summary: "A simple sleeping mechanic for a GeckoLib entity.",
-                            description: "This code block demonstrates a simple implementation of how to add a sleeping mechanic for an entity in Minecraft Java using GeckoLib. When the entity is sleeping, it will not move or perform any actions until it is woken up by the player or wakes up when it becomes day again.",
+                            breakdown: "This snippet demonstrates a basic implementation of a sleeping mechanic for a custom entity in Minecraft Java using GeckoLib. The entity can enter a sleeping state during the night and wake up during the day. The sleeping state affects the entity's behaviour, making it inactive while sleeping. Additionally, the entity can be woken up by player interaction. This mechanic adds depth to the entity's behaviour, making it more dynamic and engaging within the game world. The implementation of the day / night cycle check ensures that the entity follows a constant polling system. This polling system has allowed me to understand state management and the crucial nature of performance within a game system. This code can be further expanded to include more complex sleeping behaviours, such as different sleep durations or effects upon waking up.",
+                            keyDecisions: "To produce this sleeping mechanic, I decided to use a simple Boolean flag to track the sleeping state of the entity. This approach allows for easy checking and updating of the entity's state and synchronisation across multiplayer environments. I also chose to implement the day/night cycle check within the entity's tick method, which I have made be called every 1200 game ticks, ensuring that the entity's state is updated in real-time based on the in-game time and ensuring performance. For player interaction, I utilized the interact method to allow players to wake up the entity by right-clicking on it which in-turn mounts the entity. This decision was made to provide a straightforward and intuitive way for players to interact with the sleeping entity. Additionally, I ensured that the sleeping state is saved and loaded with the entity's data, allowing for persistence across game sessions. Additionally, I have further separated the sleep logic from the animation logic, allowing for easier extensibility in the future for nocturnal creatures or different sleep behaviours and allowing independent changes.",
+                            whatILearned: "Through implementing this sleeping mechanic, I learned about state management in game entities, particularly how to handle different states such as sleeping and awake. I also gained experience in working with GeckoLib and Minecraft's entity system, including how to save and load entity data. Additionally, I learned about the importance of performance considerations when implementing mechanics that involve regular checks, such as the day/night cycle polling system. This experience has enhanced my understanding of game development principles and the intricacies of creating engaging entity behaviours.",
                             media: "/assets/projects/llgdragons/nightfury_sleep.png"
                         },
                         {
@@ -278,7 +319,9 @@
                                 { label: "dragon.json", file: "/assets/code/llgdragons/variant/dragon.json" }
                             ],
                             summary: "A simple variant system for GeckoLib entities.",
-                            description: "This code block demonstrates a simple implementation of how to add variants to an entity in Minecraft Java using GeckoLib. Variants allow for different appearances for the same entity type, enhancing diversity and customization within the game. Additionally, this implementation includes a method to retrieve a random variant, which can be used when spawning new entities to ensure a varied population. For example, dragons can have different colors or patterns based on their variant. The code includes a method to get the texture path for each variant, allowing for easy retrieval of the correct texture based on the entity's variant. Furthermore, the code utilises a data-driven approach to define variants, making it easier to add or modify variants in the future without changing the core code and allowing for any player to easily add their own variants via data packs and resource packs. All of the files attached are requred in being able to set up an use the variant system for an entity along with the \x22dragon.json\x22 file being the output of data generation and an example on how the file is to be structured.",
+                            breakdown: "This code block demonstrates a simple implementation of how to add variants to an entity in Minecraft Java using GeckoLib. Variants allow for different appearances for the same entity type, enhancing diversity and customization within the game. Additionally, this implementation includes a method to retrieve a random variant, which can be used when spawning new entities to ensure a varied population. For example, dragons can have different colours or patterns based on their variant. The code includes a method to get the texture path for each variant, allowing for easy retrieval of the correct texture based on the entity's variant. Furthermore, the code utilises a data-driven approach to define variants, making it easier to add or modify variants in the future without changing the core code and allowing for any player to easily add their own variants via data packs and resource packs. All the files attached are required in being able to set up and use the variant system for an entity along with the \x22dragon.json\x22 file being the output of data generation and an example on how the file is to be structured.",
+                            keyDecisions: "The code includes classes for defining variants, rendering entities with different textures based on their variant, and managing the registration of variants within the mod. The entity class is modified to include a variant field, which is saved and loaded with the entity's data. The renderer class uses the variant field to determine which texture to use when rendering the entity. The variant definitions are created using a builder pattern, allowing for easy addition of new variants with specific properties such as name and texture path. The data generator class automates the creation of necessary data files for the variants, ensuring that they are properly registered and recognized by the game. This implementation provides a flexible and extensible framework for adding variants to entities in Minecraft mods.",
+                            whatILearned: "Through implementing this variant system, I learned about data-driven design principles and how to effectively use GeckoLib for entity rendering in Minecraft. I gained experience in managing entity states and properties, as well as saving and loading custom data with entities. Additionally, I learned about the importance of modularity and extensibility in code design, allowing for easy addition of new features in the future. This experience has enhanced my understanding of game development concepts and the intricacies of creating dynamic and customizable entities within a game environment.",
                             media: "/assets/projects/llgdragons/nightfury_variants.png"
                         }
                 ],
@@ -293,6 +336,18 @@
             },
             prev() {
                 this.currentSlide = (this.currentSlide - 1 + this.project.media.length) % this.project.media.length;
+            },
+
+            formatDate(dateString) {
+              const date = new Date(dateString);
+              return date.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+            },
+
+            get technicalApproachParagraphs() {
+              return this.project.technicalApproach.split(/\n\s*\n/);
+            },
+            get impactOutcomeParagraphs() {
+              return this.project.impactOutcome.split(/\n\s*\n/);
             }
         })),
         Alpine.data('codeBlockLoader', (file) => ({

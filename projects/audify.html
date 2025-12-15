@@ -69,6 +69,8 @@
         <!-- Title + Summary -->
         <div class="text-center mb-10">
             <h1 class="text-4xl font-bold text-gray-900 mb-3" x-text="project.title"></h1>
+            <h2 class="text-2xl font-bold text-gray-700 mb-3" x-text="project.subtitle"></h2>
+            <h2 class="text-2x1 font-bold text-gray-700 mb-3" aria-label="Creation Date" x-text="formatDate(project.date)"></h2>
             <div class="small-gap-section"></div>
             <div class="flex flex-wrap gap-2 justify-center mb-4">
                 <template x-for="tag in project.tags" :key="tag">
@@ -102,30 +104,34 @@
 
         <div class="gap-section"></div>
 
-        <!-- Links -->
-        <!--<div class="mb-10">
-            <h2 class="text-2xl font-semibold mb-4">Links</h2>
-            <div class="flex flex-wrap gap-3">
-                <template x-for="link in project.links">
-                    <a :href="link.url" target="_blank" class="px-4 py-2 rounded-xl bg-primary-500 text-white hover:bg-primary-600 transition flex items-center gap-2">
-                        <template x-if="link.svg">
-                            <span x-html="link.svg" class="inline-block align-middle"></span>
-                        </template>
-                        <span x-text="link.label"></span>
-                    </a>
-                </template>
-            </div>
-        </div>
-        
-        <div class="gap-section"></div>-->
-
         <!-- Full Description -->
         <div class="mb-10">
-            <h2 class="text-2xl font-semibold mb-4">Description</h2>
-            <p class="text-gray-700 leading-relaxed" x-text="project.description"></p>
+            <h2 class="text-2xl font-semibold mb-4">The Challange</h2>
+            <p class="text-gray-700 leading-relaxed" x-text="project.challenge"></p>
+            
+            <div class="gap-section"></div>
+
+            <h2 class="text-2xl font-semibold mb-4">Technical Approach</h2>
+            <div class="space-y-4 text-gray-700 leading-relaxed">
+              <template x-for="(paragraph, i) in technicalApproachParagraphs" :key="i">
+                <p x-text="paragraph"></p>
+              </template>
+            </div>
+
+            <div class="gap-section"></div>
+
+            <h2 class="text-2xl font-semibold mb-4">Impact and Outcomes</h2>
+            <div class="space-y-4 text-gray-700 leading-relaxed">
+              <template x-for="(paragraph, i) in impactOutcomeParagraphs" :key="i">
+                <p x-text="paragraph"></p>
+              </template>
+            </div>
         </div>
 
         <!-- Code Example Block -->
+        <div class="gap-section"></div>
+        <div class="gap-section"></div>
+        <h2 class="text-2xl font-semibold mb-4">Code Examples</h2>
         <template x-for="(block, idx) in project.codeBlocks" :key="idx">
             <div class="mb-10">
                 <div class="gap-section"></div>
@@ -182,9 +188,21 @@
                     </div>
                 </template>
                 </div>
+
+                <div class="mb-3">
+                  <div class="gap-section"></div>
+                  <h2 class="text-2xl font-semibold mb-4">Key Decisions</h2>
+                  <span class="block text-gray-700" x-text="block.keyDecisions"></span>
+                </div>
+                <div class="mb-3">
+                  <div class="gap-section"></div>
+                  <h2 class="text-2xl font-semibold mb-4">What I Learned</h2>
+                  <span class="block text-gray-700" x-text="block.whatILearned"></span>
+                </div>
             </div>
         </template>
 
+        <div class="gap-section"></div>
         <div class="gap-section"></div>
 
         <!-- Additional Media Grid -->
@@ -244,8 +262,12 @@
             currentSlide: 0,
             project: {
                 title: "Audify",
+                subtitle: "Audio Player with Metadata Management",
+                date: "2025-11-18T14:44:55.169Z",
                 summary: "An application managing local music files with real-time metadata display for streaming overlays.",
-                description: "A custom audio player with a metadata file system. Allowing users to select audio files, create / edit custom metadata (title, artist, source) and maintain a persistent audio library. Currently being refined on it's features and design before a public release.",
+                challenge: "The challenge of this project was to create a user-friendly audio player that not only plays local audio files but also allows users to manage and edit metadata associated with those files. The goal was to ensure that the application could handle various audio formats, provide a seamless user experience, and maintain a persistent library of audio tracks with customizable metadata. Additionally, integrating real-time metadata display for streaming overlays added complexity, requiring efficient data handling and UI updates.",
+                technicalApproach: "To tackle this project, I chose to develop the application using Unity for its robust UI capabilities and cross-platform support. The core functionality revolves around a custom audio player that can load local audio files and read their metadata. I implemented a metadata management system that generates JSON files for each audio track, allowing users to create and edit metadata such as title, artist, and source directly within the application. This metadata is stored persistently, ensuring that user edits are saved across sessions.\n\nFor the real-time metadata display, I designed an overlay system that can be integrated into streaming software. This overlay dynamically updates to show the currently playing track's metadata, enhancing the viewer's experience during live streams. The application also includes features like audio playback controls, playlist management, and a clean, intuitive UI to facilitate easy navigation and interaction.\n\nThroughout development, I focused on modularity and scalability, ensuring that new features could be added with minimal disruption to existing functionality. I also prioritized performance optimization to handle large audio libraries efficiently. Testing and user feedback played a crucial role in refining the application, leading to improvements in usability and feature set. Overall, the technical approach combined effective use of Unity's capabilities with thoughtful design principles to create a comprehensive audio player and metadata management solution.",
+                impactOutcome: "This was one of my first application projects, and it significantly enhanced my understanding of audio processing, metadata management, and UI/UX design within the Unity environment. The project allowed me to explore the challenges of handling local file systems, data serialization, and real-time UI updates, which are critical skills in application development.\n\nThe impact of this project extends beyond just technical skills; it also improved my problem-solving abilities and my capacity to design user-centric applications. By focusing on user experience and feedback, I learned how to create intuitive interfaces that cater to the needs of end-users. Additionally, the project provided insights into the importance of modular design and scalability in software development.\n\nOverall, Audify serves as a testament to my growth as a developer, showcasing my ability to conceptualize, design, and implement a functional application from scratch. It has laid a strong foundation for future projects and has inspired me to continue exploring the intersection of technology and user experience.",
                 tags: ["Unity", "Application", "C#", "Rust"],
                 media: [
                     { type: "image", src: "/assets/projects/audify/metadataoverview_ia.png" },
@@ -262,13 +284,17 @@
                                 { label: "MetadataManager.cs", file: "/assets/code/audify/metagen/MetadataManager.cs" }
                             ],
                             summary: "Local file metadata generation.",
-                            description: "The codeblock demonstrates a simple yet effective generation system implemented in Unity that automatically creates a structured JSON files for a local audio track. When a new audio file is selected and imported, the system inspects its path, generates a SongMetadata object, and serializes it into a persistent JSON file utilising Unity\x27s JsonUtility. This gurantees that every track added to the application has consistent, programmatically generated metadata, forming a simple but extensible data-driven foundation for Audify\x27s library.",
+                            breakdown: "The code block demonstrates a simple, yet effective generation system implemented in Unity that automatically creates a structured JSON files for a local audio track. When a new audio file is selected and imported, the system inspects its path, generates a SongMetadata object, and serializes it into a persistent JSON file utilising Unity\x27s JsonUtility. This guarantees that every track added to the application has consistent, programmatically generated metadata, forming a simple but extensible data-driven foundation for Audify\x27s library.",
+                            keyDecisions: "To produce this system, I opted for Unity\x27s built-in JsonUtility for serialization due to its simplicity and seamless integration with Unity objects. The decision to use JSON files for metadata storage was driven by the need for human-readable and easily editable data formats, allowing users to modify metadata outside the application if desired. Additionally, I designed the SongMetadata class to be extensible, enabling future enhancements such as adding more metadata fields or supporting different audio formats without significant refactoring. This modular approach ensures that the metadata generation system can evolve alongside the application\x27s requirements.",
+                            whatILearned: "Through implementing this metadata generation system, I gained valuable insights into data serialization and file management within the Unity environment. I learned how to effectively utilize Unity\x27s JsonUtility for converting complex objects into JSON format, which is a crucial skill for handling persistent data in applications. Additionally, I developed a deeper understanding of designing extensible data structures, which is essential for creating scalable software solutions. This experience also highlighted the importance of balancing simplicity and functionality in application design, as I aimed to create a system that was both easy to use and adaptable to future needs.",
                             media: "/assets/projects/audify/metadata_files.png"
                         },
                         {
                             file: "/assets/code/audify/editor/MetadataEditorUI.cs",
                             summary: "In app metadata editor UI.",
-                            description: "This codeblock demonstrates a Unity-based metadata editing UI that allows the user to modify the generated metadata file for the selected audio track. The applications system loads an existing metadata file into the input fields, synchronizes the users edits back into a SongMetadata object, and serializes the updated data to the disk. A file change triggers an event callback \x22OnMetadataUpdated\x22 to ensure other systems remain in sync, creating a clean and modular workflow for managing audio metadata.",
+                            breakdown: "This code block demonstrates a Unity-based metadata editing UI that allows the user to modify the generated metadata file for the selected audio track. The applications system loads an existing metadata file into the input fields, synchronizes the users edits back into a SongMetadata object, and serializes the updated data to the disk. A file change triggers an event callback \x22OnMetadataUpdated\x22 to ensure other systems remain in sync, creating a clean and modular workflow for managing audio metadata.",
+                            keyDecisions: "I have chosen to implement this metadata editor UI within Unity to provide a seamless and integrated user experience. The decision to use input fields for each metadata attribute allows for straightforward editing, while the synchronization mechanism ensures that changes are consistently reflected across the application. By utilizing event callbacks, I aimed to create a decoupled architecture where different components can react to metadata updates without direct dependencies, promoting maintainability and scalability. This design choice also facilitates future enhancements, such as adding validation or additional metadata fields, without disrupting existing functionality.",
+                            whatILearned: "This has taught me the importance of user-centric design in application development. I learned how to create intuitive UI components that facilitate easy data manipulation while ensuring data integrity through synchronization mechanisms. Additionally, I gained experience in implementing event-driven architectures, which are crucial for building modular and maintainable software systems. This project also enhanced my understanding of Unity\x27s UI framework and its capabilities for creating dynamic and responsive interfaces. Overall, this experience has reinforced the significance of balancing functionality with usability in software design.",
                             media: "/assets/projects/audify/metadata_ia.png"
                         }
                 ],
@@ -282,6 +308,18 @@
             },
             prev() {
                 this.currentSlide = (this.currentSlide - 1 + this.project.media.length) % this.project.media.length;
+            },
+
+            formatDate(dateString) {
+              const date = new Date(dateString);
+              return date.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+            },
+
+            get technicalApproachParagraphs() {
+              return this.project.technicalApproach.split(/\n\s*\n/);
+            },
+            get impactOutcomeParagraphs() {
+              return this.project.impactOutcome.split(/\n\s*\n/);
             }
         })),
         Alpine.data('codeBlockLoader', (file) => ({

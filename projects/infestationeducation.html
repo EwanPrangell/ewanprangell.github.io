@@ -69,6 +69,8 @@
         <!-- Title + Summary -->
         <div class="text-center mb-10">
             <h1 class="text-4xl font-bold text-gray-900 mb-3" x-text="project.title"></h1>
+            <h2 class="text-2xl font-bold text-gray-700 mb-3" x-text="project.subtitle"></h2>
+            <h2 class="text-2x1 font-bold text-gray-700 mb-3" aria-label="Creation Date" x-text="formatDate(project.date)"></h2>
             <div class="small-gap-section"></div>
             <div class="flex flex-wrap gap-2 justify-center mb-4">
                 <template x-for="tag in project.tags" :key="tag">
@@ -114,11 +116,6 @@
                         <span x-text="link.label"></span>
                     </a>
                 </template>
-                <!-- Embed trigger: opens a pop-out with an embedded itch.io iframe -->
-                <!-- <button id="embed-trigger" class="px-4 py-2 rounded-xl bg-primary-500 text-white hover:bg-primary-600 transition flex items-center gap-2" title="Embed this game on the page">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                    <span>Embed</span>
-                </button> -->
             </div>
         </div>
         
@@ -126,11 +123,32 @@
 
         <!-- Full Description -->
         <div class="mb-10">
-            <h2 class="text-2xl font-semibold mb-4">Description</h2>
-            <p class="text-gray-700 leading-relaxed" x-text="project.description"></p>
+            <h2 class="text-2xl font-semibold mb-4">The Challange</h2>
+            <p class="text-gray-700 leading-relaxed" x-text="project.challenge"></p>
+            
+            <div class="gap-section"></div>
+
+            <h2 class="text-2xl font-semibold mb-4">Technical Approach</h2>
+            <div class="space-y-4 text-gray-700 leading-relaxed">
+              <template x-for="(paragraph, i) in technicalApproachParagraphs" :key="i">
+                <p x-text="paragraph"></p>
+              </template>
+            </div>
+
+            <div class="gap-section"></div>
+
+            <h2 class="text-2xl font-semibold mb-4">Impact and Outcomes</h2>
+            <div class="space-y-4 text-gray-700 leading-relaxed">
+              <template x-for="(paragraph, i) in impactOutcomeParagraphs" :key="i">
+                <p x-text="paragraph"></p>
+              </template>
+            </div>
         </div>
 
         <!-- Code Example Block -->
+        <div class="gap-section"></div>
+        <div class="gap-section"></div>
+        <h2 class="text-2xl font-semibold mb-4">Code Examples</h2>
         <template x-for="(block, idx) in project.codeBlocks" :key="idx">
             <div class="mb-10">
                 <div class="gap-section"></div>
@@ -139,7 +157,7 @@
                 <span class="text-gray-600" x-text="block.summary"></span>
                 </div>
                 <div class="mb-3">
-                <span class="block text-gray-700" x-text="block.description"></span>
+                <span class="block text-gray-700" x-text="block.breakdown"></span>
                 </div>
                 <div class="gap-section"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
@@ -187,9 +205,20 @@
                     </div>
                 </template>
                 </div>
+                <div class="mb-3">
+                  <div class="gap-section"></div>
+                  <h2 class="text-2xl font-semibold mb-4">Key Decisions</h2>
+                  <span class="block text-gray-700" x-text="block.keyDecisions"></span>
+                </div>
+                <div class="mb-3">
+                  <div class="gap-section"></div>
+                  <h2 class="text-2xl font-semibold mb-4">What I Learned</h2>
+                  <span class="block text-gray-700" x-text="block.whatILearned"></span>
+                </div>
             </div>
         </template>
 
+        <div class="gap-section"></div>
         <div class="gap-section"></div>
 
         <!-- Additional Media Grid -->
@@ -249,8 +278,12 @@
             currentSlide: 0,
             project: {
                 title: "Infestation Education",
+                subtitle: "Unity Survival-Dystopian Game",
+                date: "2025-11-18T14:06:13.0074506",
                 summary: "A dystopian narrative-driven title released on itch.io.",
-                description: "Contributed gameplay programming, systems integration, and technical documentation for Infestation Education, a Unity survival-horror project built by a 13-person team. Implemented modular systems including interaction handlers, combat behaviour, UI and inventory logic, event-driven menu elements, and a coroutine-based slideshow for the main menu. Worked closely with design and narrative teams to translate mechanics from the GDD into functional C# systems, integrating animations, sound events, and level scripting. Assisted with debugging, optimisation, and asset pipeline setup, supporting a final playable build released on itch.io alongside a full technical and design documentation package.",
+                challenge: "This project raised a unique set of challenges, primarily around working in a large team of 13 members across various disciplines including design, narrative, art, and programming. Ensuring cohesive integration of gameplay mechanics with the story and art style required effective communication and collaboration. Additionally, desiging complex systems such as inventory management, combat mechanics, and event-driven UI for Unity presented technical hurdles that demanded careful planning and modular coding practices to facilitate teamwork and future scalability. Due to not being the primary programmer and instead being the lead documenter and game mechanics designer, balancing my time between coding tasks and documentation was a significant challenge.",
+                technicalApproach: "To complete this project, I adopted a modular programming approach using C# within the Unity engine. This involved breaking down gameplay mechanics into discrete, manageable components that could be developed and tested independently before integration. I utilized Unity's event system to implement a coroutine-based logic for an asynchronous task on the loading screen for a character image carousel. Regular meetings with the design and narrative teams ensured that technical implementations aligned with the overall vision of the game. Additionally, I focused on writing clear technical documentation to support future development and maintenance of the project.\n\nKey technical strategies included:\n\n1. Modular Design: Creating reusable scripts for common functionalities such as inventory management and UI handling.\n\n2. Event-Driven Programming: Leveraging Unity's event system to decouple components and facilitate communication between different game systems.\n\n3. Coroutine Usage: Implementing coroutines for non-blocking operations, enhancing user experience during loading sequences.\n\n4. Documentation: Maintaining comprehensive documentation to aid team members in understanding the codebase and facilitate onboarding of new developers.\n\nThese approaches not only streamlined the development process but also ensured that the game mechanics were robust and adaptable to future changes.",
+                impactOutcome: "This was my first experience working on a large-scale game project within a team setting, which significantly enhanced my collaboration and communication skills. The modular system I developed contributed to a more efficient workflow for the lead programmer, allowing for easier debugging and feature additions. The project culminated in a playable build released on itch.io, receiving positive feedback for its engaging mechanics and narrative integration. Furthermore, the comprehensive documentation I produced has served as a valuable resource for the team, facilitating onboarding of new members and guiding future development efforts. Overall, this project not only expanded my technical skills in Unity and C# but also provided invaluable experience in team dynamics and project management within a game development context.",
                 tags: ["Unity", "Game", "C#"],
                 media: [
                     { type: "image", src: "/assets/projects/infestatione/main_menu.png" },
@@ -268,7 +301,9 @@
                         {
                             file: "/assets/code/infestatione/image/ImageSlideshowBehaviour.cs",
                             summary: "A simple image carousel script for a main menu.",
-                            description: "This codeblock demonstrates a robus soloution to a Unity image carousel implementation using coroutine-based timing and fade interpolation. This system uses iteration through a collection of slide transforms, fading to black between transitions, activating only the current slide, and then fading back to clear. This development, has configurable timings for fade and slide duration to make it a flexible background system for main menus or UI screens, while maintaining a clean separation between slideshow logic and UI visuals through using a dedicated overlay image.",
+                            breakdown: "This script handles the logic for an image slideshow in the main menu of the game. It uses Unity's coroutine system to cycle through a list of images, displaying each one for a set duration before transitioning to the next. The script ensures that the slideshow loops indefinitely and provides a smooth user experience during loading screens. It also includes error handling to manage cases where the image list is empty. This implementation demonstrates effective use of Unity's MonoBehaviour lifecycle methods and coroutine functionality to create an engaging visual element for the game's user interface.",
+                            keyDecisions: "To develop this system, I chose to utilize Unity's coroutine feature for its ability to handle asynchronous operations without blocking the main thread. This decision was crucial for maintaining a smooth user experience during loading screens. I also opted for a modular design, encapsulating the slideshow logic within its own MonoBehaviour script, which allows for easy reuse and modification in other parts of the project. Additionally, I implemented error handling to ensure robustness, particularly in scenarios where the image list might be empty, preventing potential runtime errors. These decisions collectively contributed to a reliable and visually appealing slideshow system that enhances the overall user interface of the game.",
+                            whatILearned: "Through direct contribution to the game's codebase, I gained practical experience in Unity's scripting environment and deepened my understanding of C# programming. I learned how to effectively use coroutines for managing timed events, which is essential for creating dynamic and responsive game features. Additionally, I improved my skills in debugging and optimizing code within a collaborative team setting, which is invaluable for any game development project. This experience also highlighted the importance of clear documentation and modular design, as these practices facilitate teamwork and future maintenance of the codebase.",
                             media: "/assets/projects/infestatione/main_menu_showcase.gif"
                         }
                 ],
@@ -283,6 +318,18 @@
             },
             prev() {
                 this.currentSlide = (this.currentSlide - 1 + this.project.media.length) % this.project.media.length;
+            },
+
+            formatDate(dateString) {
+              const date = new Date(dateString);
+              return date.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+            },
+
+            get technicalApproachParagraphs() {
+              return this.project.technicalApproach.split(/\n\s*\n/);
+            },
+            get impactOutcomeParagraphs() {
+              return this.project.impactOutcome.split(/\n\s*\n/);
             }
         })),
         Alpine.data('codeBlockLoader', (file) => ({
@@ -360,16 +407,6 @@
                 overlay.style.pointerEvents = 'all';
                 document.documentElement.style.overflow = 'hidden';
                 document.body.style.overflow = 'hidden';
-
-                /*// start a short timer — if iframe doesn't signal load quickly, show fallback
-                if (loadTimer) clearTimeout(loadTimer);
-                // hide fallback while waiting
-                if (fallback) fallback.style.display = 'none';
-
-                loadTimer = setTimeout(function() {
-                    // iframe likely blocked from embedding
-                    if (fallback) fallback.style.display = 'flex';
-                }, 2200);*/
 
                 // show fallback immediately (game currently not accessible)
                 if (fallback) fallback.style.display = 'flex';

@@ -2424,6 +2424,7 @@ html{
     transform: translateY(-8px) scale(0.95);
     transition: opacity 0.2s ease-out, transform 0.2s ease-out;
     backdrop-filter: blur(8px);
+    transform-origin: top left;
 }
 
 .minecraft-tooltip.show {

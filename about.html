@@ -15,7 +15,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://ewanprangell.github.io/about">
     <meta property="og:site_name" content="Ewan Prangell">
-    <meta property="og:title" content="Home - Ewan Prangell">
+    <meta property="og:title" content="About - Ewan Prangell">
     <meta property="og:description" content="A collection of my development projects with their wiki pages. Additionally it shows my journey through learning.">
     <meta property="og:image" content="https://ewanprangell.github.io/assets/site-image.png">
     <meta property="og:image:width" content="1200">
@@ -25,7 +25,7 @@
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://ewanprangell.github.io/about">
-    <meta property="twitter:title" content="Home - Ewan Prangell">
+    <meta property="twitter:title" content="About - Ewan Prangell">
     <meta property="twitter:description" content="A collection of my development projects with their wiki pages. Additionally it shows my journey through learning.">
     <meta property="twitter:image" content="https://ewanprangell.github.io/assets/site-image.png">
     <meta property="twitter:creator" content="@PrangellDev">
@@ -100,31 +100,55 @@
             show: false,
             text: '',
             x: 0,
-            y: 0
+            y: 0,
+            armedEl: null,
+            armedAt: 0
         },
-        showTooltip(text, event) {
+        showTooltip(text, event, el = null) {
             this.tooltip.text = text;
-            this.tooltip.x = event.clientX + 10;
-            this.tooltip.y = event.clientY + 10;
             this.tooltip.show = true;
+            this.tooltip.armedEl = el;
+            this.tooltip.armedAt = Date.now();
+
+            if (event?.touches) {
+                this.tooltip.x = event.touches[0].clientX + 12;
+                this.tooltip.y = event.touches[0].clientY + 18;
+            } else {
+                this.tooltip.x = event.clientX + 10;
+                this.tooltip.y = event.clientY + 18;
+            }
         },
         hideTooltip() {
             this.tooltip.show = false;
+            this.tooltip.armedEl = null;
         },
         updateTooltipPosition(event) {
-            if (this.tooltip.show) {
-                this.tooltip.x = event.clientX + 10;
-                this.tooltip.y = event.clientY + 10;
+            if (!this.tooltip.show || event.touches) return;
+
+            this.tooltip.x = event.clientX + 10;
+            this.tooltip.y = event.clientY + 18;
+        },
+        handleTouchActivate(event, el, text) {
+            // First tap: show tooltip
+            if (this.tooltip.armedEl !== el || Date.now() - this.tooltip.armedAt > 1200) {
+                event.preventDefault();
+                this.showTooltip(text, event, el);
+                return;
             }
+
+            // Second tap: allow navigation
+            this.hideTooltip();
+            el.click();
         }
-    }" @mousemove="updateTooltipPosition">
+    }" @mousemove="updateTooltipPosition" @scroll.window="hideTooltip">
 
 <div class="max-w-4xl mx-auto px-4 py-8">
     <!-- Custom Tooltip -->
     <div
         x-show="tooltip.show"
-        :class="tooltip.show ? 'minecraft-tooltip show' : 'minecraft-tooltip'"
-        :style="`left: ${tooltip.x}px; top: ${tooltip.y}px;`"
+        class="minecraft-tooltip"
+        :class="{ 'show': tooltip.show }"
+        :style="`left:${tooltip.x}px; top:${tooltip.y}px;`"
         x-text="tooltip.text"
     ></div>
 
@@ -174,7 +198,7 @@
     </section>
 
     <!-- Journey Cards -->
-    <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+    <section class="grid grid-cols-1 gap-8 mb-16" id="experience">
         <div class="card t-card group">
             <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-gradient-xy"></div>
             <div class="relative bg-white rounded-2xl p-6 h-full">
@@ -182,7 +206,7 @@
                     <span class="ml-2">My Journey</span>
                 </h2>
                 <p class="text-gray-600">
-                    My journey into games programming began due to the Minecraft modding community. What started as a simple curiosity back in 2020 about how my favourite game worked, quickly turned into countless hours being spent exploring and reworking game systems. The realisation that a single line of code had that much power in transforming a game left me astonished and intrigued. I became fascinated not just by playing games, but by understanding, deconstructing, and rebuilding systems.
+                    My programming journey began in 2020 with a simple question: "How does Minecraft actually work?" What started originally as a curiosity about a game later evolved into a 5+ year development journey of deep technical exploration, that transformed me a player into a developer.<br><br>The Minecraft modding community had become my classroom, where I learned Java, object-oriented programming, and software design principles over thousands of hours of development. This development had me deconstructing game systems, reverse-engineering mechanics, and building features from scratch. The moment that I had learned how a singular line of code could completely change the fundamental gameplay experience, I was hooked.<br><br>This fascination in a simple block game evolved beyond simply playing games into understanding, deconstructing, and rebuilding systems. Game modding had taught me how to think like both a player and developer allowing me to understand what makes an experience engaging whilst implementing technical solutions that achieve these goals.
                 </p>
             </div>
         </div>
@@ -194,69 +218,81 @@
                     <span class="ml-2">Philosophy</span>
                 </h2>
                 <p class="text-gray-600">
-                    I believe that the tech community should be empowered making technology both powerful and efficient. Whether I am designing a Minecraft mod, a game, or a new software, I always make sure my code is at an industry standard. Every challenge I face and every failure I strike, I embrace the challenge as every challenge I face is nothing more than a step providing me with stairs towards mastery.
+                    Clean Code as Craft:<br>I treat code that I write as communication and not just instructions for a computer, but as a messaging system for future developers and myself. Every project that I have developed has had a prioritisation on readability, maintainability, and industry-standard practices that will progress me further. The comments that I add allow me to explain "why", not "what".<br><br>Embracing Failure as Learning:<br>My LLGDragons project has involved countless failed implementations of systems including the likes of entity behaviour that have caused crashes, animation glitches, and variant systems that have corrupted saves. Each one of my failures have taught me something new such as how Minecraft's entity system works, why certain design patterns exist, and when to refactor versus rebuild. I document both my failures and my success as being able to understand my failures and what didn't work matters as much as what did.<br><br>Tools Are Flexible:<br>By using Unity for desktop applications such as Audify instead of game development demonstrates this philosophy, understanding tool capabilities beyond the documentation. Technologies themselves are means to ends, not ends to themselves and sometimes the best solution to a problem is using whatever tool will solve the problem most effectively, even unconventionally.
+                </p>
+            </div>
+        </div>
+
+        <div class="card t-card group">
+            <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-gradient-xy"></div>
+            <div class="relative bg-white rounded-2xl p-6 h-full">
+                <h2 class="text-2xl font-bold mb-4 flex items-center">
+                    <span class="ml-2">What Am I Looking For</span>
+                </h2>
+                <p class="text-gray-600">
+                    I am seeking opportunites within gameplay programming or system engineering roles in game development studios where:<br>- I am able to contribute to complex game systems that require modular and maintainable architecture.<br>- Features focused for the player's experience where I am required to have both technical skills and user experience awareness.<br>- Cross-disciplinary collaboration opportunites between programming, design, and art.<br><br>Ideal Environment:<br>A studio that values clean code, continuous learning, innovation, and iterative development. I want to be part of a team that encourages knowledge sharing, embraces new technologies, and prioritises player-centric design. My ideal projects are those that challenge me to grow as a developer while contributing to memorable gaming experiences allowing me to develop systems-driven gameplay in simulations, strategy games, and sandboxes allowing me to express my technical complexity and creativity to provide the player with creative freedom.<br><br>Career Goals:<br>My short-term career goal is to become a junior gameplay programmer allowing me to build experience in a professional game development environment.<br>My long-term career goal is to specialise and develop into a systems architect allowing me to develop and design core gameplay frameworks that enable designers, artists, and other programmers to create engaging experiences.<br><br>Why Game Development:<br>I have chosen games development over other technical roles due to the unique combination of technical problem-solving with creative expression. Every system that I will build, whether that is dragon behaviour trees or metadata editors, exist to create a user-experience that is engaging, fun, and memorable. That combination of logic and creativity is my drive and passion for the games field.<br><br>Availability:<br>I am available for full-time and apprenticeship roles from June 2026 onwards, with flexibility for internships or part-time roles leading up to that date. I am open to Game Studios, indie developers, and software companies that align with my interests and values.<br>Location: Dartford, Kent, UK.
                 </p>
             </div>
         </div>
     </section>
 
     <!-- Skills Section -->
-    <section class="mb-16">
+    <section class="mb-16" id="skills">
         <h2 class="text-3xl font-bold mb-8">Tech I Work With</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="card t-card group cursor-pointer" @mouseenter="showTooltip('My primary programming language for game development and application creation. I use it extensively in Unity for creating interactive experiences and robust software solutions.', $event)" @mouseleave="hideTooltip()">
+                <div class="card t-card group cursor-pointer" @mouseenter="showTooltip('My primary programming language for game development and application creation. I use it extensively in Unity for creating interactive experiences and robust software solutions.', $event)" @mouseleave="hideTooltip()" @touchstart="handleTouchActivate($event, $el, 'My primary programming language for game development and application creation. I use it extensively in Unity for creating interactive experiences and robust software solutions.')">
                     <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-gradient-xy"></div>
-                    <div class="relative bg-white rounded-2xl p-6">
+                    <div class="relative bg-white rounded-2xl p-6" role="link" tabindex="0" @click="window.open('https://dotnet.microsoft.com/en-us/languages/csharp', '_blank')" @keydown.enter.prevent="window.open('https://dotnet.microsoft.com/en-us/languages/csharp', '_blank')">
                         <span class="text-2xl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 128 128"><path fill="#9B4F96" d="M115.4 30.7L67.1 2.9c-.8-.5-1.9-.7-3.1-.7-1.2 0-2.3.3-3.1.7l-48 27.9c-1.7 1-2.9 3.5-2.9 5.4v55.7c0 1.1.2 2.4 1 3.5l106.8-62c-.6-1.2-1.5-2.1-2.4-2.7z"/><path fill="#68217A" d="M10.7 95.3c.5.8 1.2 1.5 1.9 1.9l48.2 27.9c.8.5 1.9.7 3.1.7 1.2 0 2.3-.3 3.1-.7l48-27.9c1.7-1 2.9-3.5 2.9-5.4V36.1c0-.9-.1-1.9-.6-2.8l-106.6 62z"/><path fill="#fff" d="M85.3 76.1C81.1 83.5 73.1 88.5 64 88.5c-13.5 0-24.5-11-24.5-24.5s11-24.5 24.5-24.5c9.1 0 17.1 5 21.3 12.5l13-7.5c-6.8-11.9-19.6-20-34.3-20-21.8 0-39.5 17.7-39.5 39.5s17.7 39.5 39.5 39.5c14.6 0 27.4-8 34.2-19.8l-12.9-7.6zM97 66.2l.9-4.3h-4.2v-4.7h5.1L100 51h4.9l-1.2 6.1h3.8l1.2-6.1h4.8l-1.2 6.1h2.4v4.7h-3.3l-.9 4.3h4.2v4.7h-5.1l-1.2 6h-4.9l1.2-6h-3.8l-1.2 6h-4.8l1.2-6h-2.4v-4.7H97zm4.8 0h3.8l.9-4.3h-3.8l-.9 4.3z"/></svg></span>
                         <span class="ml-2">C#</span>
                     </div>
                 </div>
-                <div class="card t-card group cursor-pointer" @mouseenter="showTooltip('Essential for Minecraft modding and enterprise applications. I use it extensively for creating Minecraft Forge/Fabric mods, developing robust backend systems, and understanding object-oriented programming principles.', $event)" @mouseleave="hideTooltip()">
+                <div class="card t-card group cursor-pointer" @mouseenter="showTooltip('Essential for Minecraft modding and enterprise applications. I use it extensively for creating Minecraft Forge/Fabric mods, developing robust backend systems, and understanding object-oriented programming principles.', $event)" @mouseleave="hideTooltip()" @touchstart="handleTouchActivate($event, $el, 'Essential for Minecraft modding and enterprise applications. I use it extensively for creating Minecraft Forge/Fabric mods, developing robust backend systems, and understanding object-oriented programming principles.')">
                     <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-gradient-xy"></div>
-                    <div class="relative bg-white rounded-2xl p-6">
-                        <span class="text-2xl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 128 128"><path fill="#0074BD" d="M47.617 98.12s-4.767 2.774 3.397 3.71c9.892 1.13 14.947.968 25.845-1.092 0 0 2.871 1.795 6.873 3.351-24.439 10.47-55.308-.607-36.115-5.969zm-2.988-13.665s-5.348 3.959 2.823 4.805c10.567 1.091 18.91 1.18 33.354-1.6 0 0 1.993 2.025 5.132 3.131-29.542 8.64-62.446.68-41.309-6.336z"/><path fill="#EA2D2E" d="M69.802 61.271c6.025 6.935-1.58 13.17-1.58 13.17s15.289-7.891 8.269-17.777c-6.559-9.215-11.587-13.792 15.635-29.58 0 .001-42.731 10.67-22.324 34.187z"/><path fill="#0074BD" d="M102.123 108.229s3.529 2.91-3.888 5.159c-14.102 4.272-58.706 5.56-71.094.171-4.451-1.938 3.899-4.625 6.526-5.192 2.739-.593 4.303-.485 4.303-.485-4.953-3.487-32.013 6.85-13.743 9.815 49.821 8.076 90.817-3.637 77.896-9.468zM49.912 70.294s-22.686 5.389-8.033 7.348c6.188.828 18.518.638 30.011-.326 9.39-.789 18.813-2.474 18.813-2.474s-3.308 1.419-5.704 3.053c-23.042 6.061-67.544 3.238-54.731-2.958 10.832-5.239 19.644-4.643 19.644-4.643zm40.697 22.747c23.421-12.167 12.591-23.86 5.032-22.285-1.848.385-2.677.72-2.677.72s.688-1.079 2-1.543c14.953-5.255 26.451 15.503-4.823 23.725 0-.002.359-.327.468-.617z"/><path fill="#EA2D2E" d="M76.491 1.587S89.459 14.563 64.188 34.51c-20.266 16.006-4.621 25.13-.007 35.559-11.831-10.673-20.509-20.07-14.688-28.815C58.041 28.42 81.722 22.195 76.491 1.587z"/><path fill="#0074BD" d="M52.214 126.021c22.476 1.437 57-.8 57.817-11.436 0 0-1.571 4.032-18.577 7.231-19.186 3.612-42.854 3.191-56.887.874 0 .001 2.875 2.381 17.647 3.331z"/></svg></span>
+                    <div class="relative bg-white rounded-2xl p-6" role="link" tabindex="0" @click="window.open('https://www.java.com/en/', '_blank')" @keydown.enter.prevent="window.open('https://www.java.com/en/', '_blank')">
+                        <span class="text-2xl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 128 128"><path fill="#0074BD" d="M47.617 98.12s-4.767 2.774 3.397 3.71c9.892 1.13 14.947.968 25.845-1.092 0 0 2.871 1.795 6.873 3.351-24.439 10.47-55.308-.607-36.115-5.969zm-2.988-13.665s-5.348 3.959 2.823 4.805c10.567 1.091 18.91 1.18 33.354-1.6 0 0 1.993 2.025 5.132 3.131-29.542 8.64-62.446.68-41.309-6.336z"></path><path fill="#EA2D2E" d="M69.802 61.271c6.025 6.935-1.58 13.17-1.58 13.17s15.289-7.891 8.269-17.777c-6.559-9.215-11.587-13.792 15.635-29.58 0 .001-42.731 10.67-22.324 34.187z"></path><path fill="#0074BD" d="M102.123 108.229s3.529 2.91-3.888 5.159c-14.102 4.272-58.706 5.56-71.094.171-4.451-1.938 3.899-4.625 6.526-5.192 2.739-.593 4.303-.485 4.303-.485-4.953-3.487-32.013 6.85-13.743 9.815 49.821 8.076 90.817-3.637 77.896-9.468zM49.912 70.294s-22.686 5.389-8.033 7.348c6.188.828 18.518.638 30.011-.326 9.39-.789 18.813-2.474 18.813-2.474s-3.308 1.419-5.704 3.053c-23.042 6.061-67.544 3.238-54.731-2.958 10.832-5.239 19.644-4.643 19.644-4.643zm40.697 22.747c23.421-12.167 12.591-23.86 5.032-22.285-1.848.385-2.677.72-2.677.72s.688-1.079 2-1.543c14.953-5.255 26.451 15.503-4.823 23.725 0-.002.359-.327.468-.617z"></path><path fill="#EA2D2E" d="M76.491 1.587S89.459 14.563 64.188 34.51c-20.266 16.006-4.621 25.13-.007 35.559-11.831-10.673-20.509-20.07-14.688-28.815C58.041 28.42 81.722 22.195 76.491 1.587z"></path><path fill="#0074BD" d="M52.214 126.021c22.476 1.437 57-.8 57.817-11.436 0 0-1.571 4.032-18.577 7.231-19.186 3.612-42.854 3.191-56.887.874 0 .001 2.875 2.381 17.647 3.331z"></path></svg></span>
                         <span class="ml-2">Java</span>
                     </div>
                 </div>
-                <div class="card t-card group cursor-pointer" @mouseenter="showTooltip('Version control system that tracks changes in source code. I use Git for all my projects to maintain code history, collaborate with others, and manage different versions of my work efficiently.', $event)" @mouseleave="hideTooltip()">
+                <div class="card t-card group cursor-pointer" @mouseenter="showTooltip('Version control system that tracks changes in source code. I use Git for all my projects to maintain code history, collaborate with others, and manage different versions of my work efficiently.', $event)" @mouseleave="hideTooltip()" @touchstart="handleTouchActivate($event, $el, 'Version control system that tracks changes in source code. I use Git for all my projects to maintain code history, collaborate with others, and manage different versions of my work efficiently.')">
                     <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-gradient-xy"></div>
-                    <div class="relative bg-white rounded-2xl p-6">
-                        <span class="text-2xl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/></svg></span>
+                    <div class="relative bg-white rounded-2xl p-6" role="link" tabindex="0" @click="window.open('https://git-scm.com/', '_blank')" @keydown.enter.prevent="window.open('https://git-scm.com/', '_blank')">
+                        <span class="text-2xl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"></path></svg></span>
                         <span class="ml-2">Git</span>
                     </div>
                 </div>
-                <div class="card t-card group cursor-pointer" @mouseenter="showTooltip('The platform that inspired my programming journey. I create mods for Minecraft to learn advanced programming concepts, game development, and data-driven systems while building something fun and creative.', $event)" @mouseleave="hideTooltip()">
+                <div class="card t-card group cursor-pointer" @mouseenter="showTooltip('The platform that inspired my programming journey. I create mods for Minecraft to learn advanced programming concepts, game development, and data-driven systems while building something fun and creative.', $event)" @mouseleave="hideTooltip()" @touchstart="handleTouchActivate($event, $el, 'The platform that inspired my programming journey. I create mods for Minecraft to learn advanced programming concepts, game development, and data-driven systems while building something fun and creative.')">
                     <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-gradient-xy"></div>
-                    <div class="relative bg-white rounded-2xl p-6">
+                    <div class="relative bg-white rounded-2xl p-6" role="link" tabindex="0" @click="window.open('https://www.minecraft.net/en-us', '_blank')" @keydown.enter.prevent="window.open('https://www.minecraft.net/en-us', '_blank')">
                         <span class="text-2xl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" stroke-linecap="square" fill="none"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <rect width="512" height="512" rx="15%" fill="#111"></rect> <g id="a" transform="matrix(19 11 0 22 76 142)"> <path fill="#432" d="M.5.5h9v9h-9"></path> <path stroke="#864" d="M2 8v1h2V8h5V7 H7V5"></path> <path stroke="#643" d="M1 5zM2 9zM1 8V7h2V6h1M5 9h2V8H6V4M7 6h1v1M9 9zM9 4v1"></path> <path stroke="#a75" d="M1 7h1M4 7h1M9 6z"></path> <path stroke="#555" d="M5 5z"></path> <path stroke="#593" d="M4 4V1h4v2H7V2H4v1H2v1"></path> <path stroke="#6a4" d="M2 1h1M6 1zM7 2zM9 1v1"></path> <path stroke="#7c5" d="M5 3zM3 2h1"></path> <path stroke="#9c6" d="M1 1v1h1M8 1z"></path> </g> <use xlink:href="#a" transform="matrix(-1 0 0 1 513 0)" opacity=".5"></use> <g transform="matrix(-19 11-19-11 447 159)"> <path fill="#7b4" d="M.5.5h9v9h-9"></path> <path stroke="#8c5" d="M1 1zM3 1zM4 7zM3 4v2H1v2h3v1h2V7M2 3h4V1H5v1h3M7 4v1H4M9 4v2H8v3"></path> <path stroke="#ad7" d="M1 3v2M1 7zM1 9zM3 3zM4 4zM5 1zM5 3zM5 5v1M5 8v1M7 2v1M8 7h1"></path> </g> </g></svg></span>
                         <span class="ml-2">Minecraft</span>
                     </div>
                 </div>
-                <div class="card t-card group cursor-pointer" @mouseenter="showTooltip('My primary operating system for development. I use Windows for its excellent support for game development tools like Unity, extensive software ecosystem, and familiarity with Windows-specific APIs and workflows.', $event)" @mouseleave="hideTooltip()">
+                <div class="card t-card group cursor-pointer" @mouseenter="showTooltip('My primary operating system for development. I use Windows for its excellent support for game development tools like Unity, extensive software ecosystem, and familiarity with Windows-specific APIs and workflows.', $event)" @mouseleave="hideTooltip()" @touchstart="handleTouchActivate($event, $el, 'My primary operating system for development. I use Windows for its excellent support for game development tools like Unity, extensive software ecosystem, and familiarity with Windows-specific APIs and workflows.')">
                     <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-gradient-xy"></div>
-                    <div class="relative bg-white rounded-2xl p-6">
-                        <span class="text-2xl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 128 128"><path fill="#0078d4" d="M67.328 67.331h60.669V128H67.328zm-67.325 0h60.669V128H.003zM67.328 0h60.669v60.669H67.328zM.003 0h60.669v60.669H.003z"/></svg></span>
+                    <div class="relative bg-white rounded-2xl p-6" role="link" tabindex="0" @click="window.open('https://www.microsoft.com/en-gb/windows?r=1', '_blank')" @keydown.enter.prevent="window.open('https://www.microsoft.com/en-gb/windows?r=1', '_blank')">
+                        <span class="text-2xl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 128 128"><path fill="#0078d4" d="M67.328 67.331h60.669V128H67.328zm-67.325 0h60.669V128H.003zM67.328 0h60.669v60.669H67.328zM.003 0h60.669v60.669H.003z"></path></svg></span>
                         <span class="ml-2">Windows</span>
                     </div>
                 </div>
-                <div class="card t-card group cursor-pointer" @mouseenter="showTooltip('Game engine I use for creating interactive 3D applications and games. I work with Unity for both game development and tool creation, utilizing its powerful editor, physics engine, and extensive asset ecosystem.', $event)" @mouseleave="hideTooltip()">
+                <div class="card t-card group cursor-pointer" @mouseenter="showTooltip('Game engine I use for creating interactive 3D applications and games. I work with Unity for both game development and tool creation, utilizing its powerful editor, physics engine, and extensive asset ecosystem.', $event)" @mouseleave="hideTooltip()" @touchstart="handleTouchActivate($event, $el, 'Game engine I use for creating interactive 3D applications and games. I work with Unity for both game development and tool creation, utilizing its powerful editor, physics engine, and extensive asset ecosystem.')">
                     <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-gradient-xy"></div>
-                    <div class="relative bg-white rounded-2xl p-6">
-                        <span class="text-2xl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 128 128"><path d="m64.414 122.93 47.606-27.49-18.247-10.553-18.656 10.777a1.06 1.06 0 0 1-1.035-.008 1.054 1.054 0 0 1-.523-.898V69.164c0-.754.39-1.437 1.043-1.812L96.77 54.55a1.03 1.03 0 0 1 1.035.008c.324.18.527.52.53.89v21.543l18.259 10.547V32.56l-52.18 30.12Zm0 0"/><path fill="#4d4d4d" d="m53.738 95.676-18.664-10.79-18.261 10.552 47.601 27.492V62.68L12.25 32.559v54.976l18.254-10.543V55.45c.008-.37.207-.71.527-.89a1.04 1.04 0 0 1 1.04-.008l22.179 12.8a2.095 2.095 0 0 1 1.043 1.813v25.598c-.004.37-.2.71-.52.902-.316.188-.71.191-1.035.012"/><path fill="gray" d="M68.988 5.07v21.086l18.657 10.77c.32.187.511.531.511.906 0 .371-.195.711-.511.898L65.469 51.54a2.12 2.12 0 0 1-2.09 0L41.21 38.73a1.033 1.033 0 0 1-.516-.898 1.038 1.038 0 0 1 .516-.906l18.652-10.77V5.07L12.25 32.56l52.164 30.12 52.176-30.12Zm0 0"/></svg></span>
+                    <div class="relative bg-white rounded-2xl p-6" role="link" tabindex="0" @click="window.open('https://unity.com/', '_blank')" @keydown.enter.prevent="window.open('https://unity.com/', '_blank')">
+                        <span class="text-2xl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 128 128"><path d="m64.414 122.93 47.606-27.49-18.247-10.553-18.656 10.777a1.06 1.06 0 0 1-1.035-.008 1.054 1.054 0 0 1-.523-.898V69.164c0-.754.39-1.437 1.043-1.812L96.77 54.55a1.03 1.03 0 0 1 1.035.008c.324.18.527.52.53.89v21.543l18.259 10.547V32.56l-52.18 30.12Zm0 0"></path><path fill="#4d4d4d" d="m53.738 95.676-18.664-10.79-18.261 10.552 47.601 27.492V62.68L12.25 32.559v54.976l18.254-10.543V55.45c.008-.37.207-.71.527-.89a1.04 1.04 0 0 1 1.04-.008l22.179 12.8a2.095 2.095 0 0 1 1.043 1.813v25.598c-.004.37-.2.71-.52.902-.316.188-.71.191-1.035.012"></path><path fill="gray" d="M68.988 5.07v21.086l18.657 10.77c.32.187.511.531.511.906 0 .371-.195.711-.511.898L65.469 51.54a2.12 2.12 0 0 1-2.09 0L41.21 38.73a1.033 1.033 0 0 1-.516-.898 1.038 1.038 0 0 1 .516-.906l18.652-10.77V5.07L12.25 32.56l52.164 30.12 52.176-30.12Zm0 0"></path></svg></span>
                         <span class="ml-2">Unity</span>
                     </div>
                 </div>
-                <div class="card t-card group cursor-pointer" @mouseenter="showTooltip('IDE provider whose tools I use extensively for development. I primarily use IntelliJ IDEA for Java development and Rider for C# and Unity projects, benefiting from their intelligent code assistance and productivity features.', $event)" @mouseleave="hideTooltip()">
+                <div class="card t-card group cursor-pointer" @mouseenter="showTooltip('IDE provider whose tools I use extensively for development. I primarily use IntelliJ IDEA for Java development and Rider for C# and Unity projects, benefiting from their intelligent code assistance and productivity features.', $event)" @mouseleave="hideTooltip()" @touchstart="handleTouchActivate($event, $el, 'IDE provider whose tools I use extensively for development. I primarily use IntelliJ IDEA for Java development and Rider for C# and Unity projects, benefiting from their intelligent code assistance and productivity features.')">
                     <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-gradient-xy"></div>
-                    <div class="relative bg-white rounded-2xl p-6">
-                        <span class="text-2xl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 128 128"><defs><linearGradient id="jetbrains-original-a" gradientUnits="userSpaceOnUse" x1="32.64" y1="61.16" x2="82.77" y2="85.54" gradientTransform="scale(.71111)"><stop offset=".21" stop-color="#fe2857"/><stop offset="1" stop-color="#293896"/></linearGradient><linearGradient id="jetbrains-original-b" gradientUnits="userSpaceOnUse" x1="17.38" y1="69.86" x2="82.95" y2="21.23" gradientTransform="scale(.71111)"><stop offset="0" stop-color="#fe2857"/><stop offset=".01" stop-color="#fe2857"/><stop offset=".86" stop-color="#ff318c"/></linearGradient><linearGradient id="jetbrains-original-c" gradientUnits="userSpaceOnUse" x1="74.17" y1="21.58" x2="160.27" y2="99.76" gradientTransform="scale(.71111)"><stop offset=".02" stop-color="#ff318c"/><stop offset=".21" stop-color="#fe2857"/><stop offset=".86" stop-color="#fdb60d"/></linearGradient><linearGradient id="jetbrains-original-d" gradientUnits="userSpaceOnUse" x1="155.46" y1="89.8" x2="55.07" y2="158.9" gradientTransform="scale(.71111)"><stop offset=".01" stop-color="#fdb60d"/><stop offset=".86" stop-color="#fcf84a"/></linearGradient></defs><path d="M58 59.527l-29.406-24.89a10.67 10.67 0 00-17.485 8.949 10.664 10.664 0 007.196 9.328h.105l.277.086 37.094 11.297c.266.098.551.148.836.152a2.654 2.654 0 001.375-4.914zm0 0" fill="url(#jetbrains-original-a)"/><path d="M63.895 18.438A7.747 7.747 0 0051.91 11.91L16 33.714a10.66 10.66 0 00-4.793 9.96A10.67 10.67 0 0028.73 50.78l32.192-26.234.254-.211a7.783 7.783 0 002.719-5.898zm0 0" fill="url(#jetbrains-original-b)"/><path d="M116.117 65.422L61.633 12.949a7.763 7.763 0 00-7.692-1.965 7.763 7.763 0 00-5.394 5.825 7.764 7.764 0 002.555 7.52l.097.085 57.887 48.766a5.235 5.235 0 005.578.734 5.243 5.243 0 003.02-4.75 5.281 5.281 0 00-1.567-3.742zm0 0" fill="url(#jetbrains-original-c)"/><path d="M117.688 69.184a5.226 5.226 0 00-8.297-4.266l-65.926 32.21a10.668 10.668 0 1011.008 18.2l60.96-41.844a5.21 5.21 0 002.254-4.3zm0 0" fill="url(#jetbrains-original-d)"/><path d="M42.668 42.668h42.664v42.664H42.668zm0 0"/><path d="M47.309 77.332h16V80h-16zm-.669-23.664l1.188-1.125c.23.363.617.594 1.047.621.453 0 .754-.32.754-.941v-4.207h1.836v4.222a2.452 2.452 0 01-.656 1.871 2.512 2.512 0 01-1.829.711 2.745 2.745 0 01-2.34-1.152zm5.65-5.652h5.355v1.554h-3.56v1.02h3.196v1.422h-3.164v1.058h3.555v1.563h-5.406zm7.964 1.613h-1.992v-1.613h5.836v1.613h-1.996v5.043h-1.848zM47.383 57.3h3.14a2.47 2.47 0 011.813.59c.289.29.445.676.437 1.083a1.556 1.556 0 01-1.03 1.484c.78.145 1.339.836 1.32 1.629 0 1.203-.93 1.914-2.524 1.914h-3.156zm3.554 2.055c0-.367-.3-.566-.84-.566h-.917v1.164h.89c.555 0 .88-.191.88-.574zm-.64 1.891H49.18v1.23h1.152c.57 0 .883-.218.883-.609-.016-.379-.285-.62-.903-.62zm3.355-3.946h2.953c.79-.062 1.57.192 2.168.712.403.414.618.976.59 1.55a2.132 2.132 0 01-1.37 2.055L59.585 64h-2.137l-1.344-2.02h-.617V64H53.64zm2.844 3.2c.621 0 .996-.305.996-.797 0-.531-.39-.8-1-.8h-.988v1.613zm0 0" fill="#fff"/><path d="M61.93 57.25h1.777l2.848 6.715H64.57l-.476-1.203h-2.582L61.035 64H59.11zm1.62 4.078l-.745-1.887-.754 1.887zm3.294-4.047h1.847v6.66h-1.847zm2.531 0h1.734l2.399 3.555V57.28h1.828v6.66h-1.613l-2.513-3.65v3.652h-1.836zm6.265 5.672l1.024-1.23a3.45 3.45 0 002.133.804c.508 0 .77-.175.77-.46 0-.294-.215-.434-1.13-.649-1.425-.328-2.511-.711-2.511-2.082 0-1.238.98-2.133 2.582-2.133a4.185 4.185 0 012.738.887l-.89 1.265a3.244 3.244 0 00-1.864-.652c-.449 0-.668.176-.668.426 0 .305.227.441 1.16.648 1.528.332 2.473.832 2.473 2.075 0 1.359-1.074 2.132-2.687 2.132a4.643 4.643 0 01-3.13-1.03zm0 0" fill="#fff"/></svg></span>
+                    <div class="relative bg-white rounded-2xl p-6" role="link" tabindex="0" @click="window.open('https://www.jetbrains.com/', '_blank')" @keydown.enter.prevent="window.open('https://www.jetbrains.com/', '_blank')">
+                        <span class="text-2xl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 128 128"><defs><linearGradient id="jetbrains-original-a" gradientUnits="userSpaceOnUse" x1="32.64" y1="61.16" x2="82.77" y2="85.54" gradientTransform="scale(.71111)"><stop offset=".21" stop-color="#fe2857"></stop><stop offset="1" stop-color="#293896"></stop></linearGradient><linearGradient id="jetbrains-original-b" gradientUnits="userSpaceOnUse" x1="17.38" y1="69.86" x2="82.95" y2="21.23" gradientTransform="scale(.71111)"><stop offset="0" stop-color="#fe2857"></stop><stop offset=".01" stop-color="#fe2857"></stop><stop offset=".86" stop-color="#ff318c"></stop></linearGradient><linearGradient id="jetbrains-original-c" gradientUnits="userSpaceOnUse" x1="74.17" y1="21.58" x2="160.27" y2="99.76" gradientTransform="scale(.71111)"><stop offset=".02" stop-color="#ff318c"></stop><stop offset=".21" stop-color="#fe2857"></stop><stop offset=".86" stop-color="#fdb60d"></stop></linearGradient><linearGradient id="jetbrains-original-d" gradientUnits="userSpaceOnUse" x1="155.46" y1="89.8" x2="55.07" y2="158.9" gradientTransform="scale(.71111)"><stop offset=".01" stop-color="#fdb60d"></stop><stop offset=".86" stop-color="#fcf84a"></stop></linearGradient></defs><path d="M58 59.527l-29.406-24.89a10.67 10.67 0 00-17.485 8.949 10.664 10.664 0 007.196 9.328h.105l.277.086 37.094 11.297c.266.098.551.148.836.152a2.654 2.654 0 001.375-4.914zm0 0" fill="url(#jetbrains-original-a)"></path><path d="M63.895 18.438A7.747 7.747 0 0051.91 11.91L16 33.714a10.66 10.66 0 00-4.793 9.96A10.67 10.67 0 0028.73 50.78l32.192-26.234.254-.211a7.783 7.783 0 002.719-5.898zm0 0" fill="url(#jetbrains-original-b)"></path><path d="M116.117 65.422L61.633 12.949a7.763 7.763 0 00-7.692-1.965 7.763 7.763 0 00-5.394 5.825 7.764 7.764 0 002.555 7.52l.097.085 57.887 48.766a5.235 5.235 0 005.578.734 5.243 5.243 0 003.02-4.75 5.281 5.281 0 00-1.567-3.742zm0 0" fill="url(#jetbrains-original-c)"></path><path d="M117.688 69.184a5.226 5.226 0 00-8.297-4.266l-65.926 32.21a10.668 10.668 0 1011.008 18.2l60.96-41.844a5.21 5.21 0 002.254-4.3zm0 0" fill="url(#jetbrains-original-d)"></path><path d="M42.668 42.668h42.664v42.664H42.668zm0 0"></path><path d="M47.309 77.332h16V80h-16zm-.669-23.664l1.188-1.125c.23.363.617.594 1.047.621.453 0 .754-.32.754-.941v-4.207h1.836v4.222a2.452 2.452 0 01-.656 1.871 2.512 2.512 0 01-1.829.711 2.745 2.745 0 01-2.34-1.152zm5.65-5.652h5.355v1.554h-3.56v1.02h3.196v1.422h-3.164v1.058h3.555v1.563h-5.406zm7.964 1.613h-1.992v-1.613h5.836v1.613h-1.996v5.043h-1.848zM47.383 57.3h3.14a2.47 2.47 0 011.813.59c.289.29.445.676.437 1.083a1.556 1.556 0 01-1.03 1.484c.78.145 1.339.836 1.32 1.629 0 1.203-.93 1.914-2.524 1.914h-3.156zm3.554 2.055c0-.367-.3-.566-.84-.566h-.917v1.164h.89c.555 0 .88-.191.88-.574zm-.64 1.891H49.18v1.23h1.152c.57 0 .883-.218.883-.609-.016-.379-.285-.62-.903-.62zm3.355-3.946h2.953c.79-.062 1.57.192 2.168.712.403.414.618.976.59 1.55a2.132 2.132 0 01-1.37 2.055L59.585 64h-2.137l-1.344-2.02h-.617V64H53.64zm2.844 3.2c.621 0 .996-.305.996-.797 0-.531-.39-.8-1-.8h-.988v1.613zm0 0" fill="#fff"></path><path d="M61.93 57.25h1.777l2.848 6.715H64.57l-.476-1.203h-2.582L61.035 64H59.11zm1.62 4.078l-.745-1.887-.754 1.887zm3.294-4.047h1.847v6.66h-1.847zm2.531 0h1.734l2.399 3.555V57.28h1.828v6.66h-1.613l-2.513-3.65v3.652h-1.836zm6.265 5.672l1.024-1.23a3.45 3.45 0 002.133.804c.508 0 .77-.175.77-.46 0-.294-.215-.434-1.13-.649-1.425-.328-2.511-.711-2.511-2.082 0-1.238.98-2.133 2.582-2.133a4.185 4.185 0 012.738.887l-.89 1.265a3.244 3.244 0 00-1.864-.652c-.449 0-.668.176-.668.426 0 .305.227.441 1.16.648 1.528.332 2.473.832 2.473 2.075 0 1.359-1.074 2.132-2.687 2.132a4.643 4.643 0 01-3.13-1.03zm0 0" fill="#fff"></path></svg></span>
                         <span class="ml-2">JetBrains</span>
                     </div>
                 </div>
-                <div class="card t-card group cursor-pointer" @mouseenter="showTooltip('Design tool I use for UI/UX design and prototyping. I create wireframes, mockups, and interactive prototypes for my applications, ensuring good user experience and visual design principles.', $event)" @mouseleave="hideTooltip()">
+                <div class="card t-card group cursor-pointer" @mouseenter="showTooltip('Design tool I use for UI/UX design and prototyping. I create wireframes, mockups, and interactive prototypes for my applications, ensuring good user experience and visual design principles.', $event)" @mouseleave="hideTooltip()" @touchstart="handleTouchActivate($event, $el, 'Design tool I use for UI/UX design and prototyping. I create wireframes, mockups, and interactive prototypes for my applications, ensuring good user experience and visual design principles.')">
                     <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-gradient-xy"></div>
-                    <div class="relative bg-white rounded-2xl p-6">
-                        <span class="text-2xl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 128 128"><path fill="#0acf83" d="M45.5 129c11.9 0 21.5-9.6 21.5-21.5V86H45.5C33.6 86 24 95.6 24 107.5S33.6 129 45.5 129zm0 0"/><path fill="#a259ff" d="M24 64.5C24 52.6 33.6 43 45.5 43H67v43H45.5C33.6 86 24 76.4 24 64.5zm0 0"/><path fill="#f24e1e" d="M24 21.5C24 9.6 33.6 0 45.5 0H67v43H45.5C33.6 43 24 33.4 24 21.5zm0 0"/><path fill="#ff7262" d="M67 0h21.5C100.4 0 110 9.6 110 21.5S100.4 43 88.5 43H67zm0 0"/><path fill="#1abcfe" d="M110 64.5c0 11.9-9.6 21.5-21.5 21.5S67 76.4 67 64.5 76.6 43 88.5 43 110 52.6 110 64.5zm0 0"/></svg></span>
+                    <div class="relative bg-white rounded-2xl p-6" role="link" tabindex="0" @click="window.open('https://www.figma.com/', '_blank')" @keydown.enter.prevent="window.open('https://www.figma.com/', '_blank')">
+                        <span class="text-2xl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 128 128"><path fill="#0acf83" d="M45.5 129c11.9 0 21.5-9.6 21.5-21.5V86H45.5C33.6 86 24 95.6 24 107.5S33.6 129 45.5 129zm0 0"></path><path fill="#a259ff" d="M24 64.5C24 52.6 33.6 43 45.5 43H67v43H45.5C33.6 86 24 76.4 24 64.5zm0 0"></path><path fill="#f24e1e" d="M24 21.5C24 9.6 33.6 0 45.5 0H67v43H45.5C33.6 43 24 33.4 24 21.5zm0 0"></path><path fill="#ff7262" d="M67 0h21.5C100.4 0 110 9.6 110 21.5S100.4 43 88.5 43H67zm0 0"></path><path fill="#1abcfe" d="M110 64.5c0 11.9-9.6 21.5-21.5 21.5S67 76.4 67 64.5 76.6 43 88.5 43 110 52.6 110 64.5zm0 0"></path></svg></span>
                         <span class="ml-2">Figma</span>
                     </div>
                 </div>
@@ -274,8 +310,8 @@
                     <div class="flex items-start space-x-4 hover:bg-gray-50 p-4 rounded-lg transition-colors">
                         <span class="text-2xl"></span>
                         <div>
-                            <h3 class="font-bold">Biggest Learning Opportunity</h3>
-                            <p class="text-gray-600">Throughout the development of one of the mods I am continuously developing, LLGDragons: Re-Fabricated, I have learned substantial amounts about programming and creating clean, efficient, and presentable code whilst also developing data-driven systems reflecting the likes of pre-developed systems in Minecraft.</p>
+                            <h3 class="font-bold">Biggest technical Growth</h3>
+                            <p class="text-gray-600">LLGDragons, has taught me the power of data-driven systems. Instead of having to hardcode every dragon variant using the Java programming language, I have built a system that allows players to create variants using JSON files without having to change the mods compiled code.<br><br>This systems mirrors what has already been created within Minecraft's own design philosophy from datapacks and resource packs and also reflects professional game development practices where designers are able to modify the content without the involvement of programmers.<br><br>Technical Lesson: Having flexible systems beats specificity.</p>
                         </div>
                     </div>
                     <div class="flex items-start space-x-4 hover:bg-gray-50 p-4 rounded-lg transition-colors">
