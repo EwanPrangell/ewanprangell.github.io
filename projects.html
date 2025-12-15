@@ -95,7 +95,7 @@
 
 <main b-fjjvsfsfew class="container mx-auto px-4 py-8 relative flex-grow">
 
-    <div class="bg-white relative" x-data="projectsData">
+    <div class="bg-white relative" x-data="projectsData" x-init="init()">
 
         <div class="mx-auto max-w-7xl px-6 lg:px-8 py-24 sm:py-32">
             <div class="mx-auto max-w-2xl text-center relative">
@@ -123,24 +123,68 @@
 
                         <!-- Custom dropdown (keeps native select hidden for Alpine x-model bindings) -->
                         <div class="w-48">
-                            <div x-data="{ open: false, value: null, options: [], init(){ this.options = Array.from($refs.tagSelect.options).map(o=>({value:o.value,label:o.text})); this.value = $refs.tagSelect.value }, select(val){ this.value = val; $refs.tagSelect.value = val; $refs.tagSelect.dispatchEvent(new Event('change')); this.open = false } }" x-init="init()" class="relative">
+                            <div x-data="{ 
+                                    open: false, 
+                                    value: null, 
+                                    options: [], 
+                                    searchTerm: '',
+                                    init(){ 
+                                        // build options list from the hidden select, keep 'All Tags' as first
+                                        this.options = Array.from($refs.tagSelect.options).map(o=>({value:o.value,label:o.text}));
+                                        // pull out the default All Tags option to keep at top
+                                        const first = this.options.find(o => o.value === '');
+                                        const rest = this.options.filter(o => o.value !== '').sort((a,b)=>a.label.localeCompare(b.label, undefined, {sensitivity:'base'}));
+                                        this.options = first ? [first, ...rest] : rest;
+                                        this.value = $refs.tagSelect.value;
+                                    },
+                                    get filteredOptions(){
+                                        if (!this.searchTerm) return this.options;
+                                        return this.options.filter(o => o.label.toLowerCase().includes(this.searchTerm.toLowerCase()));
+                                    },
+                                    select(val){ 
+                                        this.value = val; 
+                                        $refs.tagSelect.value = val; 
+                                        $refs.tagSelect.dispatchEvent(new Event('change')); 
+                                        this.open = false; 
+                                        this.searchTerm = '';
+                                    },
+                                    openDropdown() {
+                                        this.open = true;
+                                        this.$nextTick(() => {
+                                            $refs.searchInput.focus();
+                                            $refs.searchInput.select();
+                                        });
+                                    },
+                                    closeDropdown() {
+                                        this.open = false;
+                                        this.searchTerm = '';
+                                    }
+                                }" x-init="init()" class="relative">
                                 <select x-model="selectedTag" x-ref="tagSelect" class="sr-only" aria-hidden="true">
                                     <option value="">All Tags</option>
-                                    <option value="Minecraft Mod">Minecraft Mod</option>
-                                    <option value="Unity Game">Unity Game</option>
-                                    <option value="Unity Application">Unity Application</option>
+                                    <option value="Minecraft">Minecraft</option>
+                                    <option value="Unity">Unity</option>
+                                    <option value="Game">Game</option>
+                                    <option value="Application">Application</option>
+                                    <option value="Mod">Mod</option>
+                                    <option value="Rust">Rust</option>
+                                    <option value="C#">C#</option>
+                                    <option value="Java">Java</option>
                                 </select>
 
-                                <button type="button" @click="open = !open" @keydown.escape="open = false" class="custom-select-btn w-full text-left">
+                                <button type="button" @click="open ? closeDropdown() : openDropdown()" @keydown.escape="closeDropdown()" tabindex="0" class="custom-select-btn w-full text-left">
                                     <span class="truncate" x-text="options.find(o => o.value === value)?.label ?? 'All Tags'"></span>
-                                    <svg class="ml-2 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg class="ml-2 h-5 w-5 text-gray-500 transition-transform" :class="{'rotate-180': open}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                                     </svg>
                                 </button>
 
-                                <div x-show="open" x-transition @click.away="open = false" class="custom-select-list">
-                                    <template x-for="opt in options" :key="opt.value">
-                                        <button type="button" @click.prevent="select(opt.value)" :class="{'custom-select-item-active': value === opt.value}" class="custom-select-item">
+                                <div x-show="open" x-transition @click.away="closeDropdown()" class="custom-select-list">
+                                    <div class="p-2 border-b">
+                                        <input x-ref="searchInput" x-model="searchTerm" @keydown.enter.prevent="filteredOptions.length > 0 && select(filteredOptions[0].value)" @keydown.escape="closeDropdown()" type="text" placeholder="Search tags..." class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                    </div>
+                                    <template x-for="opt in filteredOptions" :key="opt.value">
+                                        <button type="button" @click.prevent="select(opt.value)" :class="{'custom-select-item-active': value === opt.value, 'custom-select-item-selected': value === opt.value}" class="custom-select-item">
                                             <span x-text="opt.label"></span>
                                         </button>
                                     </template>
@@ -158,7 +202,7 @@
 
                                 <button type="button" @click="open = !open" @keydown.escape="open = false" class="custom-select-btn w-full text-left">
                                     <span class="truncate" x-text="options.find(o => o.value === value)?.label ?? 'Latest First'"></span>
-                                    <svg class="ml-2 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg class="ml-2 h-5 w-5 text-gray-500 transition-transform" :class="{'rotate-180': open}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                                     </svg>
                                 </button>
@@ -179,7 +223,7 @@
             <!-- Projects Grid -->
             <div class="mx-auto mt-16 grid max-w-2xl auto-rows-fr grid-cols-1 gap-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
                 <template x-for="project in paginatedProjects" :key="project.id">
-                    <div class="project-card relative group h-[302px] flex flex-col">
+                    <a x-if="project.projectUrl" :href="project.projectUrl" target="_self" class="project-card relative group h-[302px] flex flex-col">
                         <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-gradient-xy"></div>
                         <div class="relative bg-white ring-1 ring-gray-900/5 rounded-2xl leading-none p-6 flex flex-col flex-grow">
                             <div class="flex items-center justify-between">
@@ -202,20 +246,56 @@
                                 <div class="flex justify-between items-center text-sm">
                                     <span class="text-gray-500" x-text="formatDate(project.createdAt)"></span>
                                     <div class="flex space-x-2">
-                                        <template x-if="project.projectUrl">
-                                            <a :href="project.projectUrl" target="_self" class="text-primary-600 hover:text-primary-900 group inline-flex items-center">
-                                                <svg class="mr-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"><path d="m18 8 4 4-4 4M2 12h20"/></svg>
-                                                View Project
-                                            </a>
-                                        </template>
                                         <template x-if="project.liveUrl">
-                                            <a :href="project.liveUrl" target="_blank" class="text-primary-600 hover:text-primary-900 group inline-flex items-center">
+                                            <a :href="project.liveUrl" target="_blank" class="px-3 py-1 bg-primary-50 hover:bg-primary-100 rounded-lg transition-colors text-primary-600 hover:text-primary-900 group inline-flex items-center">
                                                 <svg class="h-5 w-5 mr-1" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.5 1a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13zm4.894 4a5.527 5.527 0 0 0-3.053-2.676c.444.84.765 1.74.953 2.676h2.1zm.582 2.995A5.11 5.11 0 0 0 14 7.5a5.464 5.464 0 0 0-.213-1.5h-2.342c.032.331.055.664.055 1a10.114 10.114 0 0 1-.206 2h2.493c.095-.329.158-.665.19-1.005zm-3.535 0l.006-.051A9.04 9.04 0 0 0 10.5 7a8.994 8.994 0 0 0-.076-1H6.576A8.82 8.82 0 0 0 6.5 7a8.98 8.98 0 0 0 .233 2h3.534c.077-.332.135-.667.174-1.005zM10.249 5a8.974 8.974 0 0 0-1.255-2.97C8.83 2.016 8.666 2 8.5 2a3.62 3.62 0 0 0-.312.015l-.182.015L8 2.04A8.97 8.97 0 0 0 6.751 5h3.498zM5.706 5a9.959 9.959 0 0 1 .966-2.681A5.527 5.527 0 0 0 3.606 5h2.1zM3.213 6A5.48 5.48 0 0 0 3 7.5 5.48 5.48 0 0 0 3.213 9h2.493A10.016 10.016 0 0 1 5.5 7c0-.336.023-.669.055-1H3.213zm2.754 4h-2.36a5.515 5.515 0 0 0 3.819 2.893A10.023 10.023 0 0 1 5.967 10zM8.5 12.644A8.942 8.942 0 0 0 9.978 10H7.022A8.943 8.943 0 0 0 8.5 12.644zM11.033 10a10.024 10.024 0 0 1-1.459 2.893A5.517 5.517 0 0 0 13.393 10h-2.36z"/></svg>
                                                 Live Site
                                             </a>
                                         </template>
                                         <template x-if="project.githubUrl">
-                                            <a :href="project.githubUrl" target="_blank" class="text-primary-600 hover:text-primary-900 group inline-flex items-center">
+                                            <a :href="project.githubUrl" target="_blank" class="px-3 py-1 bg-primary-50 hover:bg-primary-100 rounded-lg transition-colors text-primary-600 hover:text-primary-900 group inline-flex items-center">
+                                                <svg class="h-5 w-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+                                                </svg>
+                                                GitHub
+                                            </a>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <div x-else class="project-card relative group h-[302px] flex flex-col">
+                        <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-gradient-xy"></div>
+                        <div class="relative bg-white ring-1 ring-gray-900/5 rounded-2xl leading-none p-6 flex flex-col flex-grow">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-medium text-gray-900 text-lg line-clamp-1" x-text="project.name"></h4>
+                            </div>
+                            <template x-if="project.imageUrl">
+                                <div class="mt-4 h-48">
+                                    <img :src="project.imageUrl" :alt="project.name" class="w-full h-full object-cover rounded-xl">
+                                </div>
+                            </template>
+                            <div class="mt-4 flex-grow">
+                                <p class="text-sm text-gray-500 line-clamp-3" x-text="project.description"></p>
+                            </div>
+                            <div class="mt-4">
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <template x-for="tag in project.tags" :key="tag">
+                                        <span class="tag" x-text="tag"></span>
+                                    </template>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-gray-500" x-text="formatDate(project.createdAt)"></span>
+                                    <div class="flex space-x-2">
+                                        <template x-if="project.liveUrl">
+                                            <a :href="project.liveUrl" target="_blank" class="px-3 py-1 bg-primary-50 hover:bg-primary-100 rounded-lg transition-colors text-primary-600 hover:text-primary-900 group inline-flex items-center">
+                                                <svg class="h-5 w-5 mr-1" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.5 1a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13zm4.894 4a5.527 5.527 0 0 0-3.053-2.676c.444.84.765 1.74.953 2.676h2.1zm.582 2.995A5.11 5.11 0 0 0 14 7.5a5.464 5.464 0 0 0-.213-1.5h-2.342c.032.331.055.664.055 1a10.114 10.114 0 0 1-.206 2h2.493c.095-.329.158-.665.19-1.005zm-3.535 0l.006-.051A9.04 9.04 0 0 0 10.5 7a8.994 8.994 0 0 0-.076-1H6.576A8.82 8.82 0 0 0 6.5 7a8.98 8.98 0 0 0 .233 2h3.534c.077-.332.135-.667.174-1.005zM10.249 5a8.974 8.974 0 0 0-1.255-2.97C8.83 2.016 8.666 2 8.5 2a3.62 3.62 0 0 0-.312.015l-.182.015L8 2.04A8.97 8.97 0 0 0 6.751 5h3.498zM5.706 5a9.959 9.959 0 0 1 .966-2.681A5.527 5.527 0 0 0 3.606 5h2.1zM3.213 6A5.48 5.48 0 0 0 3 7.5 5.48 5.48 0 0 0 3.213 9h2.493A10.016 10.016 0 0 1 5.5 7c0-.336.023-.669.055-1H3.213zm2.754 4h-2.36a5.515 5.515 0 0 0 3.819 2.893A10.023 10.023 0 0 1 5.967 10zM8.5 12.644A8.942 8.942 0 0 0 9.978 10H7.022A8.943 8.943 0 0 0 8.5 12.644zM11.033 10a10.024 10.024 0 0 1-1.459 2.893A5.517 5.517 0 0 0 13.393 10h-2.36z"/></svg>
+                                                Live Site
+                                            </a>
+                                        </template>
+                                        <template x-if="project.githubUrl">
+                                            <a :href="project.githubUrl" target="_blank" class="px-3 py-1 bg-primary-50 hover:bg-primary-100 rounded-lg transition-colors text-primary-600 hover:text-primary-900 group inline-flex items-center">
                                                 <svg class="h-5 w-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
                                                     <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
                                                 </svg>
@@ -314,16 +394,36 @@
     </style>
 </main>
 
-<footer b-fjjvsfsfew class="bg-white border-t mt-auto">
+<footer b-fjjvsfsfew class="bg-white border-t mt-8">
     <div b-fjjvsfsfew class="container mx-auto px-4 py-6">
-        <div b-fjjvsfsfew class="text-center space-y-2">
-            <p b-fjjvsfsfew class="text-gray-600">&copy; 2025 - Ewan Prangell</p>
-            <p b-fjjvsfsfew class="text-sm text-gray-500 flex items-center justify-center gap-2">
-                <span b-fjjvsfsfew>Made with Magic</span>
-            </p>
+      <div b-fjjvsfsfew class="text-center space-y-2">
+        <p b-fjjvsfsfew class="text-gray-600">&copy; 2025 - Ewan Prangell</p>
+        <div class="flex justify-center space-x-6 mt-4">
+          <a href="https://github.com/PrangellPlays/" class="group flex flex-col items-center p-2 hover:transform hover:scale-110 transition-all" target="_blank" rel="noopener noreferrer">
+            <span class="text-xl animate-bounce-slower">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/></svg>
+            </span>
+            <span class="mt-1 text-sm">GitHub</span>
+            <span b-fjjvsfsfew class="absolute inset-x-0 -bottom-1 h-0.5 bg-black-500 transform origin-left transition-transform scale-x-0 group-hover:scale-x-100" aria-hidden="true"></span>
+          </a>
+          <a href="https://www.linkedin.com/in/ewanprangell/" class="group flex flex-col items-center p-2 hover:transform hover:scale-110 transition-all" target="_blank" rel="noopener noreferrer">
+            <span class="text-xl animate-bounce-slower">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/></svg>
+            </span>
+            <span class="mt-1 text-sm">LinkedIn</span>
+            <span b-fjjvsfsfew class="absolute inset-x-0 -bottom-1 h-0.5 bg-black-500 transform origin-left transition-transform scale-x-0 group-hover:scale-x-100" aria-hidden="true"></span>
+          </a>
+          <a href="#" id="contact-trigger" class="group flex flex-col items-center p-2 hover:transform hover:scale-110 transition-all" target="_blank" rel="noopener noreferrer">
+            <span class="text-xl animate-bounce-slower">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 -960 960 960"><path d="M280-280q-33 0-56.5-23.5T200-360v-400q0-33 23.5-56.5T280-840h560q33 0 56.5 23.5T920-760v400q0 33-23.5 56.5T840-280zm280-188L280-663v303h560v-303zm0-98 280-194H280zM120-120q-33 0-56.5-23.5T40-200v-500h80v500h660v80zm720-546v-94H280v94-94h560z"/></svg>
+            </span>
+            <span class="mt-1 text-sm">Email</span>
+            <span b-fjjvsfsfew class="absolute inset-x-0 -bottom-1 h-0.5 bg-black-500 transform origin-left transition-transform scale-x-0 group-hover:scale-x-100" aria-hidden="true"></span>
+          </a>
         </div>
+      </div>
     </div>
-</footer>
+  </footer>
 
 
 <script>
@@ -333,15 +433,19 @@
     document.addEventListener('alpine:init', () => {
         Alpine.data('projectsData', () => ({
             projects: [
-                {"id":1,"name":"LLG Dragons: Re-Fabricated","description":"A re-creation of the old LLGDragons mod created by LittleLizardGaming and Tiny Turtle for their original HTTYD series in 1.10.2. This mod re-creates the features shown in the series from the mod and ports it to fabric 1.20.1.","imageUrl":"https://github.com/PrangellPlays/LLGDragons_ReFabricated/blob/master/src/main/resources/assets/llgdragons/icon.png?raw=true","projectUrl":"projects/llgdragons.html","liveUrl":"","githubUrl":"https://github.com/PrangellPlays/LLGDragons_ReFabricated","createdAt":"2025-03-04T09:21:12.5674654","tags":["Minecraft Mod"]},
-                {"id":2,"name":"Infestation Education","description":"A dystopian narrative-driven title released on itch.io.","imageUrl":"assets/infestationeducation.png","projectUrl":"projects/infestationeducation.html","liveUrl":"https://northkentcollegegames.itch.io/infestationeducation","githubUrl":"","createdAt":"2025-11-18T14:06:13.0074506","tags":["Unity Game"]},
-                {"id":3,"name":"Audify","description":"An application managing local music files with real-time metadata display for streaming overlays.","imageUrl":"assets/audify.png","projectUrl":"projects/audify.html","liveUrl":"","githubUrl":"","createdAt":"2025-11-18T14:44:55.169Z","tags":["Unity Application"]}
+                {"id":1,"name":"LLG Dragons: Re-Fabricated","description":"A re-creation of the old LLGDragons mod created by LittleLizardGaming and Tiny Turtle for their original HTTYD series in 1.10.2. This mod re-creates the features shown in the series from the mod and ports it to fabric 1.20.1.","imageUrl":"https://github.com/PrangellPlays/LLGDragons_ReFabricated/blob/master/src/main/resources/assets/llgdragons/icon.png?raw=true","projectUrl":"projects/llgdragons.html","liveUrl":"","githubUrl":"https://github.com/PrangellPlays/LLGDragons_ReFabricated","createdAt":"2025-03-04T09:21:12.5674654","tags":["Minecraft", "Mod", "Java"]},
+                {"id":2,"name":"Infestation Education","description":"A dystopian narrative-driven title released on itch.io.","imageUrl":"assets/infestationeducation.png","projectUrl":"projects/infestationeducation.html","liveUrl":"https://northkentcollegegames.itch.io/infestationeducation","githubUrl":"","createdAt":"2025-11-18T14:06:13.0074506","tags":["Unity", "Game", "C#"]},
+                {"id":3,"name":"Audify","description":"An application managing local music files with real-time metadata display for streaming overlays.","imageUrl":"assets/audify.png","projectUrl":"projects/audify.html","liveUrl":"","githubUrl":"","createdAt":"2025-11-18T14:44:55.169Z","tags":["Unity", "Application", "C#", "Rust"]}
             ],
             searchQuery: '',
             selectedTag: '',
             sortBy: 'date',
             currentPage: 1,
             itemsPerPage: 9,
+            // internal list of tag options populated on init
+            allTags: [
+            
+            ],
 
             get filteredProjects() {
                 return this.projects
@@ -365,6 +469,32 @@
 
             get totalPages() {
                 return Math.ceil(this.filteredProjects.length / this.itemsPerPage);
+            },
+
+            // initialize dynamic pieces: build unique, alphabetically-sorted tag list
+            init() {
+                // collect unique tags from projects and sort alphabetically
+                const tags = Array.from(new Set(this.projects.flatMap(p => p.tags || [])));
+                tags.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+                this.allTags = tags;
+
+                // populate the hidden select used by the custom dropdown so its inner x-data can read options
+                const sel = document.querySelector('select[x-model="selectedTag"]');
+                if (sel) {
+                    // clear existing options and add the default first
+                    sel.innerHTML = '';
+                    const defaultOpt = document.createElement('option');
+                    defaultOpt.value = '';
+                    defaultOpt.text = 'All Tags';
+                    sel.appendChild(defaultOpt);
+
+                    for (const t of tags) {
+                        const o = document.createElement('option');
+                        o.value = t;
+                        o.text = t;
+                        sel.appendChild(o);
+                    }
+                }
             },
 
             get paginatedProjects() {
@@ -478,7 +608,168 @@
     .custom-select-item-active {
         background: rgb(253 242 248);
         color: rgb(84 39 219);
-    }        
-</style>
+    }
+
+    .rotate-180 {
+        transform: rotate(180deg);
+    }
+    
+    /* Background overlay */
+    #contact-overlay {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(3,6,23,0.45);
+      backdrop-filter: blur(4px) brightness(0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease;
+      z-index: 9999;
+    }
+
+    /* Contact box (styled to match page) */
+    #contact-box {
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,247,255,0.95));
+      padding: 22px 24px;
+      border-radius: 14px;
+      width: 92%;
+      max-width: 520px;
+      transform: translateY(36px);
+      transition: transform .3s cubic-bezier(.2,.9,.2,1), box-shadow .2s ease;
+      box-shadow: 0 18px 60px rgba(12,18,40,0.35);
+      border: 1px solid rgba(109,74,255,0.06);
+    }
+
+    /* Active state */
+    #contact-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    #contact-overlay.active #contact-box {
+      transform: translateY(0);
+    }
+
+    #contact-box h2 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 1.4rem;
+      color: #231942;
+    }
+
+    #contact-box label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #4b4b60;
+      font-size: 0.95rem;
+    }
+
+    #contact-box input, #contact-box textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid rgba(16,24,40,0.08);
+      background: #fff;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+      transition: box-shadow .12s ease, border-color .12s ease, transform .08s ease;
+      font-size: 0.95rem;
+      color: #111827;
+    }
+
+    #contact-box input:focus, #contact-box textarea:focus {
+      outline: none;
+      border-color: rgba(109,74,255,0.9);
+      box-shadow: 0 6px 22px rgba(109,74,255,0.08), 0 0 0 4px rgba(109,74,255,0.06);
+      transform: translateY(-1px);
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-top: 6px;
+    }
+
+    /* Primary send button inside contact box */
+    #contact-box button[type="submit"] {
+      padding: 10px 16px;
+      border: none;
+      background: linear-gradient(90deg,#6d4aff 0%, #8366ff 100%);
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      box-shadow: 0 10px 30px rgba(109,74,255,0.18);
+      transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+    }
+    #contact-box button[type="submit"]:hover { transform: translateY(-2px); box-shadow: 0 18px 36px rgba(109,74,255,0.22); }
+    #contact-box button[type="submit"]:active { transform: translateY(0); }
+
+    /* Secondary cancel button */
+    #close-contact {
+      padding: 10px 14px;
+      background: transparent;
+      color: #6b6b7d;
+      border-radius: 10px;
+      border: 1px solid rgba(16,24,40,0.06);
+      cursor: pointer;
+    }
+  </style>
+
+  <div id="contact-overlay">
+    <form id="contact-box" action="https://formspree.io/f/mblvgkrn" method="POST">
+      <h2>Contact Me</h2>
+      <label>Your Name</label>
+      <input type="text" name="name" id="contact-name" placeholder="Enter your name" required>
+      <label>Your Email</label>
+      <input type="email" name="email" id="contact-email" placeholder="Enter your email" required>
+      <label>Your Message</label>
+      <textarea name="message" id="contact-message" placeholder="Write your message..." required></textarea>
+      <div class="btn-row">
+        <button type="submit">Send</button>
+        <button type="button" id="close-contact">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Contact form functionality
+    document.getElementById("contact-trigger").addEventListener("click", function(e) {
+      e.preventDefault();
+      document.getElementById("contact-overlay").classList.add("active");
+    });
+
+    document.getElementById("close-contact").addEventListener("click", function() {
+      document.getElementById("contact-overlay").classList.remove("active");
+    });
+
+    // OPTIONAL: Show success message without redirecting
+    document.getElementById("contact-box").addEventListener("submit", async function(e) {
+      e.preventDefault(); // Stop default redirect
+
+      const form = e.target;
+
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { "Accept": "application/json" }
+      });
+
+      if (response.ok) {
+        alert("Message sent successfully!");
+        form.reset();
+        document.getElementById("contact-overlay").classList.remove("active");
+      } else {
+        alert("There was an error sending your message.");
+      }
+    });
+  </script>
 </body>
 </html>

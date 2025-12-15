@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:x-transition="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home - Ewan Prangell</title>
+
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="Home - Ewan Prangell"/>
+  <meta name="description" content="A collection of my development projects with their wiki pages. Additionally it shows my journey through learning.">
+  <meta name="author" content="Ewan Prangell">
+  <meta name="keywords" content="web development, programming, developer portfolio">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ewanprangell.github.io/">
+  <meta property="og:site_name" content="Ewan Prangell">
+  <meta property="og:title" content="Home - Ewan Prangell">
+  <meta property="og:description" content="A collection of my development projects with their wiki pages. Additionally it shows my journey through learning.">
+  <meta property="og:image" content="https://ewanprangell.github.io/assets/site-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://ewanprangell.github.io/">
+  <meta property="twitter:title" content="Home - Ewan Prangell">
+  <meta property="twitter:description" content="A collection of my development projects with their wiki pages. Additionally it shows my journey through learning.">
+  <meta property="twitter:image" content="https://ewanprangell.github.io/assets/site-image.png">
+  <meta property="twitter:creator" content="@PrangellDev">
+
+  <!-- Theme Color for browsers -->
+  <meta name="theme-color" content="#6B00FF">
+
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/animations.css" />
+  <link rel="stylesheet" href="/css/index.css" />
+
+  <script nonce="SUIiDKvdAKfAQ83JF6r8WpO/NmruLpbv8ihFYt&#x2B;TqvM=" defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <link rel="icon" href="assets/prangell-icon.png"/>
+</head>
+<body class="min-h-full flex flex-col bg-gradient-to-br from-primary-50 to-secondary-50" x-data="recentProjectsData">
+  <header b-fjjvsfsfew class="bg-white shadow-sm relative">
+    <nav b-fjjvsfsfew class="container mx-auto px-4 py-4" x-data="{ isOpen: false, activeSection: window.location.pathname }" role="navigation" aria-label="Main navigation">
+      <div b-fjjvsfsfew class="flex justify-between items-center">
+        <!-- Logo -->
+        <a b-fjjvsfsfew href="index.html" class="text-2xl font-display font-bold bg-clip-text bg-gradient-to-r hover:opacity-80 transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-lg px-2 py-1" aria-label="Home">
+            <span b-fjjvsfsfew class="inline-flex items-center gap-2">
+              Ewan Prangell
+            </span>
+        </a>
+
+        <!-- Mobile menu button -->
+        <button b-fjjvsfsfew @click="isOpen = !isOpen" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500" :aria-expanded="isOpen" aria-controls="mobile-menu" aria-label="Toggle navigation menu">
+          <svg b-fjjvsfsfew class="h-6 w-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path b-fjjvsfsfew x-show="!isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            <path b-fjjvsfsfew x-show="isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+
+        <!-- Desktop menu -->
+        <div b-fjjvsfsfew class="hidden md:flex space-x-8">
+          <a b-fjjvsfsfew href="projects.html" class="nav-link group relative flex items-center gap-1 px-2 py-1 rounded-lg transition-all duration-300" :class="{ 'nav-link-active': activeSection.includes('projects.html') }" aria-label="View all projects">
+            <span b-fjjvsfsfew>Projects</span>
+            <span b-fjjvsfsfew class="absolute inset-x-0 -bottom-1 h-0.5 bg-primary-500 transform origin-left transition-transform scale-x-0 group-hover:scale-x-100" aria-hidden="true"></span>
+          </a>
+          <a b-fjjvsfsfew href="about.html" class="nav-link group relative flex items-center gap-1 px-2 py-1 rounded-lg transition-all duration-300" :class="{ 'nav-link-active': activeSection.includes('about.html') }" aria-label="About me">
+            <span b-fjjvsfsfew>About</span>
+            <span b-fjjvsfsfew class="absolute inset-x-0 -bottom-1 h-0.5 bg-primary-500 transform origin-left transition-transform scale-x-0 group-hover:scale-x-100" aria-hidden="true"></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Mobile menu -->
+      <div b-fjjvsfsfew x-show="isOpen" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2" class="md:hidden mt-4 space-y-2 p-2 bg-white rounded-lg shadow-lg" id="mobile-menu">
+        <a b-fjjvsfsfew href="projects.html" class="nav-link block p-2 rounded-lg transition-all duration-300 hover:bg-gray-50" :class="{ 'text-primary-600 bg-primary-50': activeSection.includes('projects.html') }">
+            <span b-fjjvsfsfew class="flex items-center gap-2">
+              Projects
+              <span b-fjjvsfsfew class="animate-bounce-slow" aria-hidden="true"></span>
+            </span>
+        </a>
+        <a b-fjjvsfsfew href="about.html" class="nav-link block p-2 rounded-lg transition-all duration-300 hover:bg-gray-50" :class="{ 'text-primary-600 bg-primary-50': activeSection.includes('about.html') }">
+            <span b-fjjvsfsfew class="flex items-center gap-2">
+              About
+              <span b-fjjvsfsfew class="animate-float" aria-hidden="true"></span>
+            </span>        
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main b-fjjvsfsfew class="container mx-auto px-4 py-8 relative flex-grow">
+
+    <div class="space-y-6 relative">
+    <!-- Hero section -->
+    <div class="text-center relative" role="banner">
+      <div class="absolute inset-0 flex items-center justify-center opacity-5 pointer-events-none" style="z-index: -1;" aria-hidden="true">
+        <div class="rotating-background blur-xl"></div>
+      </div>
+      <h1 class="text-5xl font-bold text-gray-900 flex items-center justify-center gap-3 hover-trigger group relative" tabindex="0">
+        <!-- <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-gradient-xy"></div> -->
+        <span class="animate-bounce-slow hover-target transform hover:scale-150 transition-transform duration-300 relative" aria-hidden="true"></span>
+        <span class="relative">Ewan Prangell</span>
+        <span class="hover-target transform hover:scale-150 transition-transform duration-300 relative" aria-hidden="true"></span>
+      </h1>
+      <p class="mt-3 text-lg text-gray-600" tabindex="0">
+        A collection of development projects!
+        <span class="inline-block animate-pulse" aria-hidden="true"></span>
+      </p>
+      <nav class="mt-6 flex justify-center gap-4" aria-label="Main navigation">
+        <a href="projects.html" class="btn-primary group relative transform hover:scale-110 transition-transform duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-lg" aria-label="View all projects">
+            <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-gradient-xy"></div>
+            <span class="flex items-center relative">
+              <span class="animate-bounce-slow mr-2" aria-hidden="true"></span>
+                View Projects
+              <span class="ml-2 group-hover:animate-ping" aria-hidden="true"></span>
+            </span>    
+        </a>
+      </nav>
+    </div>
+
+    <!-- Featured Project -->
+    <section class="relative" aria-labelledby="current-project-title">
+      <h2 id="current-project-title" class="text-xl leading-6 font-medium text-gray-900 flex items-center mb-6" tabindex="0">
+        <span class="ml-2">Current Project</span>
+      </h2>
+
+      <a x-if="currentProject.projectUrl" :href="currentProject.projectUrl" target="_self" class="project-card relative group h-[450px] flex flex-col" tabindex="0" role="article" aria-labelledby="current-project-title">
+        <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-gradient-xy" aria-hidden="true"></div>
+        <div class="relative bg-white ring-1 ring-gray-900/5 rounded-2xl leading-none p-6 flex flex-col flex-grow focus-within:ring-2 focus-within:ring-primary-500">
+          <div class="flex items-center justify-between">
+            <h4 id="current-project-title" class="font-medium text-gray-900 text-2xl sm:text-3xl" x-text="currentProject.name"></h4>
+          </div>
+          <div class="mt-4 h-40">
+            <img :src="currentProject.imageUrl" :alt="currentProject.name" class="w-full h-full object-cover rounded-xl">
+          </div>
+          <div class="mt-4 flex-grow">
+            <p class="text-sm text-gray-500" x-text="currentProject.description"></p>
+          </div>
+          <div class="mt-4">
+            <div class="flex flex-wrap gap-2 mb-4" role="list" aria-label="Project tags">
+              <template x-for="tag in currentProject.tags" :key="tag">
+                <span class="tag" x-text="tag"></span>
+              </template>
+            </div>
+            <div class="flex justify-between items-center text-sm">
+              <span class="text-gray-500" x-text="formatDate(currentProject.createdAt)"></span>
+              <div class="flex space-x-2">
+                <template x-if="currentProject.liveUrl">
+                  <a :href="currentProject.liveUrl" target="_blank" class="px-3 py-1 bg-primary-50 hover:bg-primary-100 rounded-lg transition-colors text-primary-600 hover:text-primary-900 group inline-flex items-center">
+                    <svg class="h-5 w-5 mr-1" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.5 1a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13zm4.894 4a5.527 5.527 0 0 0-3.053-2.676c.444.84.765 1.74.953 2.676h2.1zm.582 2.995A5.11 5.11 0 0 0 14 7.5a5.464 5.464 0 0 0-.213-1.5h-2.342c.032.331.055.664.055 1a10.114 10.114 0 0 1-.206 2h2.493c.095-.329.158-.665.19-1.005zm-3.535 0l.006-.051A9.04 9.04 0 0 0 10.5 7a8.994 8.994 0 0 0-.076-1H6.576A8.82 8.82 0 0 0 6.5 7a8.98 8.98 0 0 0 .233 2h3.534c.077-.332.135-.667.174-1.005zM10.249 5a8.974 8.974 0 0 0-1.255-2.97C8.83 2.016 8.666 2 8.5 2a3.62 3.62 0 0 0-.312.015l-.182.015L8 2.04A8.97 8.97 0 0 0 6.751 5h3.498zM5.706 5a9.959 9.959 0 0 1 .966-2.681A5.527 5.527 0 0 0 3.606 5h2.1zM3.213 6A5.48 5.48 0 0 0 3 7.5 5.48 5.48 0 0 0 3.213 9h2.493A10.016 10.016 0 0 1 5.5 7c0-.336.023-.669.055-1H3.213zm2.754 4h-2.36a5.515 5.515 0 0 0 3.819 2.893A10.023 10.023 0 0 1 5.967 10zM8.5 12.644A8.942 8.942 0 0 0 9.978 10H7.022A8.943 8.943 0 0 0 8.5 12.644zM11.033 10a10.024 10.024 0 0 1-1.459 2.893A5.517 5.517 0 0 0 13.393 10h-2.36z"/></svg>
+                    Live Site
+                  </a>
+                </template>
+                <template x-if="currentProject.githubUrl">
+                  <a :href="currentProject.githubUrl" target="_blank" class="px-3 py-1 bg-primary-50 hover:bg-primary-100 rounded-lg transition-colors text-primary-600 hover:text-primary-900 group inline-flex items-center">
+                    <svg class="h-5 w-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                      <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+                    </svg>
+                    GitHub
+                  </a>
+                </template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </section>
+
+    <!-- Projects section -->
+    <section id="projects" class="relative transform hover:scale-105 transition-all duration-300" aria-labelledby="projects-title">
+      <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+        <div>
+          <h2 id="projects-title" class="text-xl leading-6 font-medium text-gray-900" tabindex="0">Recent Projects</h2>
+          <p class="mt-1 text-sm text-gray-500" tabindex="0">
+            Check out what I've been working on!
+            <span class="inline-block" aria-hidden="true"></span>
+          </p>
+        </div>
+        <div class="flex items-center space-x-2">
+        </div>
+      </div>
+      <div class="px-4 py-5 sm:p-6">
+        <div class="mx-auto grid max-w-2xl auto-rows-fr grid-cols-1 gap-6 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+                <template x-for="project in recentProjects" :key="project.id">
+                    <a x-if="project.projectUrl" :href="project.projectUrl" target="_self" class="project-card relative group h-[302px] flex flex-col">
+                        <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-gradient-xy"></div>
+                        <div class="relative bg-white ring-1 ring-gray-900/5 rounded-2xl leading-none p-6 flex flex-col flex-grow">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-medium text-gray-900 text-lg line-clamp-1" x-text="project.name"></h4>
+                            </div>
+                            <template x-if="project.imageUrl">
+                                <div class="mt-4 h-48">
+                                    <img :src="project.imageUrl" :alt="project.name" class="w-full h-full object-cover rounded-xl">
+                                </div>
+                            </template>
+                            <div class="mt-4 flex-grow">
+                                <p class="text-sm text-gray-500 line-clamp-3" x-text="project.description"></p>
+                            </div>
+                            <div class="mt-4">
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <template x-for="tag in project.tags" :key="tag">
+                                        <span class="tag" x-text="tag"></span>
+                                    </template>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-gray-500" x-text="formatDate(project.createdAt)"></span>
+                                    <div class="flex space-x-2">
+                                        <template x-if="project.liveUrl">
+                                            <a :href="project.liveUrl" target="_blank" class="px-3 py-1 bg-primary-50 hover:bg-primary-100 rounded-lg transition-colors text-primary-600 hover:text-primary-900 group inline-flex items-center">
+                                                <svg class="h-5 w-5 mr-1" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.5 1a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13zm4.894 4a5.527 5.527 0 0 0-3.053-2.676c.444.84.765 1.74.953 2.676h2.1zm.582 2.995A5.11 5.11 0 0 0 14 7.5a5.464 5.464 0 0 0-.213-1.5h-2.342c.032.331.055.664.055 1a10.114 10.114 0 0 1-.206 2h2.493c.095-.329.158-.665.19-1.005zm-3.535 0l.006-.051A9.04 9.04 0 0 0 10.5 7a8.994 8.994 0 0 0-.076-1H6.576A8.82 8.82 0 0 0 6.5 7a8.98 8.98 0 0 0 .233 2h3.534c.077-.332.135-.667.174-1.005zM10.249 5a8.974 8.974 0 0 0-1.255-2.97C8.83 2.016 8.666 2 8.5 2a3.62 3.62 0 0 0-.312.015l-.182.015L8 2.04A8.97 8.97 0 0 0 6.751 5h3.498zM5.706 5a9.959 9.959 0 0 1 .966-2.681A5.527 5.527 0 0 0 3.606 5h2.1zM3.213 6A5.48 5.48 0 0 0 3 7.5 5.48 5.48 0 0 0 3.213 9h2.493A10.016 10.016 0 0 1 5.5 7c0-.336.023-.669.055-1H3.213zm2.754 4h-2.36a5.515 5.515 0 0 0 3.819 2.893A10.023 10.023 0 0 1 5.967 10zM8.5 12.644A8.942 8.942 0 0 0 9.978 10H7.022A8.943 8.943 0 0 0 8.5 12.644zM11.033 10a10.024 10.024 0 0 1-1.459 2.893A5.517 5.517 0 0 0 13.393 10h-2.36z"/></svg>
+                                                Live Site
+                                            </a>
+                                        </template>
+                                        <template x-if="project.githubUrl">
+                                            <a :href="project.githubUrl" target="_blank" class="px-3 py-1 bg-primary-50 hover:bg-primary-100 rounded-lg transition-colors text-primary-600 hover:text-primary-900 group inline-flex items-center">
+                                                <svg class="h-5 w-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+                                                </svg>
+                                                GitHub
+                                            </a>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <div x-else class="project-card relative group h-[300px] flex flex-col">
+                        <div class="absolute -inset-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-gradient-xy"></div>
+                        <div class="relative bg-white ring-1 ring-gray-900/5 rounded-2xl leading-none p-6 flex flex-col flex-grow">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-medium text-gray-900 text-lg line-clamp-1" x-text="project.name"></h4>
+                            </div>
+                            <template x-if="project.imageUrl">
+                                <div class="mt-4 h-48">
+                                    <img :src="project.imageUrl" :alt="project.name" class="w-full h-full object-cover rounded-xl">
+                                </div>
+                            </template>
+                            <div class="mt-4 flex-grow">
+                                <p class="text-sm text-gray-500 line-clamp-3" x-text="project.description"></p>
+                            </div>
+                            <div class="mt-4">
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <template x-for="tag in project.tags" :key="tag">
+                                        <span class="tag" x-text="tag"></span>
+                                    </template>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-gray-500" x-text="formatDate(project.createdAt)"></span>
+                                    <div class="flex space-x-2">
+                                        <template x-if="project.liveUrl">
+                                            <a :href="project.liveUrl" target="_blank" class="px-3 py-1 bg-primary-50 hover:bg-primary-100 rounded-lg transition-colors text-primary-600 hover:text-primary-900 group inline-flex items-center">
+                                                <svg class="h-5 w-5 mr-1" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.5 1a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13zm4.894 4a5.527 5.527 0 0 0-3.053-2.676c.444.84.765 1.74.953 2.676h2.1zm.582 2.995A5.11 5.11 0 0 0 14 7.5a5.464 5.464 0 0 0-.213-1.5h-2.342c.032.331.055.664.055 1a10.114 10.114 0 0 1-.206 2h2.493c.095-.329.158-.665.19-1.005zm-3.535 0l.006-.051A9.04 9.04 0 0 0 10.5 7a8.994 8.994 0 0 0-.076-1H6.576A8.82 8.82 0 0 0 6.5 7a8.98 8.98 0 0 0 .233 2h3.534c.077-.332.135-.667.174-1.005zM10.249 5a8.974 8.974 0 0 0-1.255-2.97C8.83 2.016 8.666 2 8.5 2a3.62 3.62 0 0 0-.312.015l-.182.015L8 2.04A8.97 8.97 0 0 0 6.751 5h3.498zM5.706 5a9.959 9.959 0 0 1 .966-2.681A5.527 5.527 0 0 0 3.606 5h2.1zM3.213 6A5.48 5.48 0 0 0 3 7.5 5.48 5.48 0 0 0 3.213 9h2.493A10.016 10.016 0 0 1 5.5 7c0-.336.023-.669.055-1H3.213zm2.754 4h-2.36a5.515 5.515 0 0 0 3.819 2.893A10.023 10.023 0 0 1 5.967 10zM8.5 12.644A8.942 8.942 0 0 0 9.978 10H7.022A8.943 8.943 0 0 0 8.5 12.644zM11.033 10a10.024 10.024 0 0 1-1.459 2.893A5.517 5.517 0 0 0 13.393 10h-2.36z"/></svg>
+                                                Live Site
+                                            </a>
+                                        </template>
+                                        <template x-if="project.githubUrl">
+                                            <a :href="project.githubUrl" target="_blank" class="px-3 py-1 bg-primary-50 hover:bg-primary-100 rounded-lg transition-colors text-primary-600 hover:text-primary-900 group inline-flex items-center">
+                                                <svg class="h-5 w-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+                                                </svg>
+                                                GitHub
+                                            </a>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+      </div>
+    </section>
+    </div>
+
+    <style>
+
+      @keyframes rainbow {
+        to {
+          background-position: 200% center;
+        }
+      }
+
+      @keyframes float {
+        0%, 100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-100px) rotate(180deg);
+        }
+      }
+
+      .rotating-background {
+        width: 800px;
+        height: 800px;
+        background: linear-gradient(45deg,
+        rgba(255, 107, 107, 0.4),
+        rgba(78, 205, 196, 0.4),
+        rgba(69, 183, 209, 0.4),
+        rgba(150, 201, 61, 0.4));
+        animation: rotate 20s linear infinite;
+        border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+        filter: blur(80px);
+      }
+
+      @keyframes rotate {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .animate-spin-slow {
+        animation: spin 3s linear infinite;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .hover-trigger .hover-target {
+        transition: all 0.3s ease;
+      }
+
+      .hover-trigger:hover .hover-target {
+        transform: scale(1.2);
+      }
+
+      .project-card {
+        transition: all 0.3s ease;
+      }
+
+      .project-card:hover {
+        transform: translateY(-10px);
+      }
+
+      .animate-float {
+        animation: float-text 3s ease-in-out infinite;
+      }
+
+      @keyframes float-text {
+        0%, 100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+    </style>
+
+  </main>
+
+  <footer b-fjjvsfsfew class="bg-white border-t mt-auto">
+    <div b-fjjvsfsfew class="container mx-auto px-4 py-6">
+      <div b-fjjvsfsfew class="text-center space-y-2">
+        <p b-fjjvsfsfew class="text-gray-600">&copy; 2025 - Ewan Prangell</p>
+        <p b-fjjvsfsfew class="text-sm text-gray-500 flex items-center justify-center gap-2">
+          <span b-fjjvsfsfew>Made with Magic</span>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('recentProjectsData', () => ({
+            currentProject: {"id":1,"name":"LLG Dragons: Re-Fabricated","description":"A re-creation of the old LLGDragons mod created by LittleLizardGaming and Tiny Turtle for their original HTTYD series in 1.10.2. This mod re-creates the features shown in the series from the mod and ports it to fabric 1.20.1.","imageUrl":"https://github.com/PrangellPlays/LLGDragons_ReFabricated/blob/master/src/main/resources/assets/llgdragons/icon.png?raw=true","projectUrl":"projects/llgdragons.html","liveUrl":"","githubUrl":"https://github.com/PrangellPlays/LLGDragons_ReFabricated","createdAt":"2025-03-04T09:21:12.5674654","tags":["Minecraft Mod"]},
+            recentProjects: [
+                {"id":1,"name":"LLG Dragons: Re-Fabricated","description":"A re-creation of the old LLGDragons mod created by LittleLizardGaming and Tiny Turtle for their original HTTYD series in 1.10.2. This mod re-creates the features shown in the series from the mod and ports it to fabric 1.20.1.","imageUrl":"https://github.com/PrangellPlays/LLGDragons_ReFabricated/blob/master/src/main/resources/assets/llgdragons/icon.png?raw=true","projectUrl":"projects/llgdragons.html","liveUrl":"","githubUrl":"https://github.com/PrangellPlays/LLGDragons_ReFabricated","createdAt":"2025-03-04T09:21:12.5674654","tags":["Minecraft Mod"]},
+                {"id":2,"name":"Audify","description":"An application managing local music files with real-time metadata display for streaming overlays.","imageUrl":"assets/audify.png","projectUrl":"projects/audify.html","liveUrl":"","githubUrl":"","createdAt":"2025-11-18T14:44:55.169Z","tags":["Unity Application"]},
+                {"id":3,"name":"Infestation Education","description":"An educational game about bed bugs, teaching players about infestation prevention and control.","imageUrl":"assets/infestationeducation.png","projectUrl":"projects/infestationeducation.html","liveUrl":"https://northkentcollegegames.itch.io/infestationeducation","githubUrl":"","createdAt":"2025-11-18T14:06:13.0074506","tags":["Unity Game"]}
+            ],
+
+            formatDate(date) {
+                return new Date(date).toLocaleDateString('en-UK', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+            }
+        }));
+    });
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Add hover effects to buttons
+      document.querySelectorAll('.btn-primary, .btn-secondary').forEach(button => {
+        button.addEventListener('mouseenter', () => {
+          button.style.transform = `scale(1.1)`;
+        });
+
+        button.addEventListener('mouseleave', () => {
+          button.style.transform = 'scale(1)';
+        });
+      });
+    });
+  </script>
+
+  <style>
+    .nav-link {
+      color: rgb(75 85 99);
+      font-weight: 500;
+      outline: none;
+    }
+
+    .nav-link:hover {
+      color: rgb(85, 0, 255);
+    }
+
+    .nav-link:focus-visible {
+      outline: 2px solid rgb(78, 39, 219);
+      outline-offset: 2px;
+      border-radius: 0.5rem;
+    }
+
+    .nav-link-active {
+      color: rgb(84, 39, 219);
+      background-color: rgb(253 242 248);
+    }
+
+    @keyframes gradient-shift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .animate-gradient-shift {
+      background-size: 200% auto;
+      animation: gradient-shift 3s ease infinite;
+    }
+  </style>
+</body>
+</html>

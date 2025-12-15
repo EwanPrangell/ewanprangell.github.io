@@ -593,6 +593,9 @@ h1, h2, h3, h4, h5, h6{
     top:0;
     bottom:0
 }
+.-bottom-0{
+    bottom:-.2rem
+}
 .-bottom-1{
     bottom:-.25rem
 }
@@ -1252,7 +1255,7 @@ h1, h2, h3, h4, h5, h6{
     --tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to)
 }
 .from-primary-500{
-    --tw-gradient-from: #7148ec var(--tw-gradient-from-position);
+    --tw-gradient-from: #6b00ff var(--tw-gradient-from-position);
     --tw-gradient-to:rgba(236,72,153,0) var(--tw-gradient-to-position);
     --tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to)
 }
@@ -1341,7 +1344,7 @@ h1, h2, h3, h4, h5, h6{
     --tw-gradient-to:#f0fdfa var(--tw-gradient-to-position)
 }
 .to-secondary-500{
-    --tw-gradient-to:#14b8a6 var(--tw-gradient-to-position)
+    --tw-gradient-to:#3bc4b5 var(--tw-gradient-to-position)
 }
 .bg-clip-text{
     -webkit-background-clip:text;
@@ -1468,6 +1471,10 @@ h1, h2, h3, h4, h5, h6{
 }
 .font-display{
     font-family:Quicksand,sans-serif
+}
+.text-l{
+    font-size:0.9375rem;
+    line-height:1.125rem
 }
 .text-2xl{
     font-size:1.5rem;
@@ -2394,4 +2401,32 @@ html{
 .bg-black-500{
     --tw-bg-opacity:1;
     background-color:rgb(0 0 0/var(--tw-bg-opacity,1))
+}
+
+/* Minecraft-style tooltip */
+.minecraft-tooltip {
+    position: fixed;
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #333;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: normal;
+    white-space: nowrap;
+    z-index: 1000;
+    pointer-events: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    max-width: 320px;
+    word-wrap: break-word;
+    white-space: normal;
+    opacity: 0;
+    transform: translateY(-8px) scale(0.95);
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+    backdrop-filter: blur(8px);
+}
+
+.minecraft-tooltip.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
 }
