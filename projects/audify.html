@@ -104,9 +104,26 @@
 
         <div class="gap-section"></div>
 
+        <!-- Links -->
+        <div class="mb-10">
+            <h2 class="text-2xl font-semibold mb-4">Links</h2>
+            <div class="flex flex-wrap gap-3">
+                <template x-for="link in project.links">
+                    <a :href="link.url" target="_blank" class="px-4 py-2 rounded-xl bg-primary-500 text-white hover:bg-primary-600 transition flex items-center gap-2">
+                        <template x-if="link.svg">
+                            <span x-html="link.svg" class="inline-block align-middle"></span>
+                        </template>
+                        <span x-text="link.label"></span>
+                    </a>
+                </template>
+            </div>
+        </div>
+        
+        <div class="gap-section"></div>
+
         <!-- Full Description -->
         <div class="mb-10">
-            <h2 class="text-2xl font-semibold mb-4">The Challange</h2>
+            <h2 class="text-2xl font-semibold mb-4">The Challenge</h2>
             <p class="text-gray-700 leading-relaxed" x-text="project.challenge"></p>
             
             <div class="gap-section"></div>
@@ -140,7 +157,7 @@
                 <span class="text-gray-600" x-text="block.summary"></span>
                 </div>
                 <div class="mb-3">
-                <span class="block text-gray-700" x-text="block.description"></span>
+                <span class="block text-gray-700" x-text="block.breakdown"></span>
                 </div>
                 <div class="gap-section"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
@@ -274,9 +291,18 @@
                     { type: "image", src: "/assets/projects/audify/metadata_ia.png" },
                     { type: "image", src: "/assets/projects/audify/metadata_file_example.png" }
                 ],
-                /*links: [
-                    
-                ],*/
+                links: [
+                    {
+                        svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/></svg>`,
+                        label: "GitHub",
+                        url: "https://github.com/PrangellPlays/Audify/tree/C%23"
+                    },
+                    {
+                      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 -960 960 960"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg>`,
+                      label: "Download",
+                      url: "https://github.com/PrangellPlays/Audify/releases/tag/CSharp"
+                    }
+                ],
                 codeBlocks: [
                         {
                             codeFiles: [
